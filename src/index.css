@@ -1,0 +1,60 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Speedee';
+  src: url('/fonts/Speedee.ttf') format('truetype');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --red: #db0007;
+  --yellow: #ffc72c;
+  --white: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.35);
+
+  --font-brand: 'Speedee', sans-serif;
+
+  font-family: var(--font-brand);
+  line-height: 1.4;
+  color: var(--white);
+  background: var(--red);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--red);
+}
+
+#root {
+  min-height: 100svh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+h1 {
+  font-family: var(--font-brand);
+  font-weight: 700;
+}
