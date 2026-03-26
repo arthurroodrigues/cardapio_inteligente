@@ -27,6 +27,11 @@
   -webkit-font-smoothing: antialiased;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 118px;
+}
+
 * {
   box-sizing: border-box;
 }
