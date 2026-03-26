@@ -1,14 +1,17 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 
 interface Burger3DProps {
   className?: string
   speed?: number
 }
 
-export function Burger3D({ className = "", speed = 0.35 }: Burger3DProps) {
+const MODEL_URL = "/models/current-burger.glb"
+
+export function Burger3D({ className = "", speed = 0.22 }: Burger3DProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -16,94 +19,125 @@ export function Burger3D({ className = "", speed = 0.35 }: Burger3DProps) {
 
     const container = containerRef.current
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100)
-    camera.position.set(0, 0.4, 6)
+    const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100)
+    camera.position.set(0, 0.4, 8)
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.7)
+    const ambient = new THREE.AmbientLight(0xffffff, 1.4)
     scene.add(ambient)
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.1)
-    keyLight.position.set(3, 4, 6)
+    const hemiLight = new THREE.HemisphereLight(0xfff2c4, 0x8f2000, 1.4)
+    scene.add(hemiLight)
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.4)
+    keyLight.position.set(6, 8, 10)
     scene.add(keyLight)
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 0.6)
-    fillLight.position.set(-4, 2, -4)
-    scene.add(fillLight)
+    const rimLight = new THREE.DirectionalLight(0xffd36e, 1.6)
+    rimLight.position.set(-5, 3, -6)
+    scene.add(rimLight)
 
-    const burger = new THREE.Group()
+    const stage = new THREE.Group()
+    scene.add(stage)
 
-    const bunMaterial = new THREE.MeshStandardMaterial({
-      color: 0xd9a066,
-      roughness: 0.7,
-      metalness: 0.1,
-    })
-    const bunTopGeometry = new THREE.SphereGeometry(
-      1.45,
-      32,
-      24,
-      0,
-      Math.PI * 2,
-      0,
-      Math.PI / 2,
+    const loader = new GLTFLoader()
+    let burger: THREE.Group | null = null
+    let animationId = 0
+    let baseStageX = 0
+    let baseStageY = 0
+    let baseStageZ = 0
+
+    const frameBurger = () => {
+      const width = container.clientWidth || 1
+      const height = container.clientHeight || width
+      const aspect = width / height
+
+      renderer.setSize(width, height)
+      camera.aspect = aspect
+
+      if (!burger) {
+        camera.updateProjectionMatrix()
+        return
+      }
+
+      stage.position.set(0, 0, 0)
+
+      const box = new THREE.Box3().setFromObject(burger)
+      const size = box.getSize(new THREE.Vector3())
+      const center = box.getCenter(new THREE.Vector3())
+      const halfFovY = THREE.MathUtils.degToRad(camera.fov * 0.5)
+
+      baseStageX = -center.x
+      baseStageY = -center.y + 0.56
+      baseStageZ = -center.z
+
+      stage.position.set(baseStageX, baseStageY, baseStageZ)
+
+      const fitHeightDistance = (size.y * 0.5) / Math.tan(halfFovY)
+      const fitWidthDistance = (size.x * 0.5) / (aspect * Math.tan(halfFovY))
+      const distance =
+        Math.max(fitHeightDistance, fitWidthDistance) * 0.94 + size.z * 0.28
+
+      camera.position.set(0, 0.52, distance)
+      camera.near = Math.max(distance / 100, 0.1)
+      camera.far = distance + size.z * 4 + 20
+      camera.lookAt(0, 0.28, 0)
+      camera.updateProjectionMatrix()
+    }
+
+    loader.load(
+      MODEL_URL,
+      (gltf) => {
+        burger = gltf.scene
+
+        burger.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.castShadow = false
+            child.receiveShadow = false
+          }
+        })
+
+        const box = new THREE.Box3().setFromObject(burger)
+        const size = box.getSize(new THREE.Vector3())
+        const maxDimension = Math.max(size.x, size.y, size.z) || 1
+        const scale = 3.85 / maxDimension
+
+        burger.scale.setScalar(scale)
+        burger.rotation.set(0.2, -0.72, -0.14)
+
+        stage.add(burger)
+        frameBurger()
+      },
+      undefined,
+      (error) => {
+        console.error("Nao foi possivel carregar o modelo do hamburguer.", error)
+      },
     )
-    const bunTop = new THREE.Mesh(bunTopGeometry, bunMaterial)
-    bunTop.position.y = 0.75
-    bunTop.scale.set(1, 0.6, 1)
-
-    const bunBottomGeometry = new THREE.CylinderGeometry(1.45, 1.55, 0.35, 32)
-    const bunBottom = new THREE.Mesh(bunBottomGeometry, bunMaterial)
-    bunBottom.position.y = -1.0
-
-    const pattyMaterial = new THREE.MeshStandardMaterial({
-      color: 0x5b3a2c,
-      roughness: 0.9,
-      metalness: 0.05,
-    })
-    const pattyGeometry = new THREE.CylinderGeometry(1.35, 1.35, 0.28, 32)
-    const patty = new THREE.Mesh(pattyGeometry, pattyMaterial)
-    patty.position.y = -0.45
-
-    const cheeseMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffc72c,
-      roughness: 0.6,
-      metalness: 0.1,
-    })
-    const cheeseGeometry = new THREE.BoxGeometry(2.2, 0.05, 2.2)
-    const cheese = new THREE.Mesh(cheeseGeometry, cheeseMaterial)
-    cheese.position.y = -0.2
-    cheese.rotation.y = Math.PI / 4
-
-    const lettuceMaterial = new THREE.MeshStandardMaterial({
-      color: 0x5bbf4a,
-      roughness: 0.7,
-      metalness: 0.05,
-    })
-    const lettuceGeometry = new THREE.TorusGeometry(1.25, 0.12, 18, 64)
-    const lettuce = new THREE.Mesh(lettuceGeometry, lettuceMaterial)
-    lettuce.position.y = 0.05
-    lettuce.rotation.x = Math.PI / 2
-
-    burger.add(bunTop, bunBottom, patty, cheese, lettuce)
-    burger.rotation.x = 0.12
-    scene.add(burger)
 
     const clock = new THREE.Clock()
-    let animationId = 0
-
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches
 
     const animate = () => {
-      const delta = clock.getDelta()
-      if (!prefersReducedMotion) {
-        burger.rotation.y += speed * delta
+      const elapsed = clock.getElapsedTime()
+
+      if (burger && !prefersReducedMotion) {
+        burger.rotation.y = -0.72 + elapsed * speed
+        stage.position.set(
+          baseStageX,
+          baseStageY + Math.sin(elapsed * 1.4) * 0.04,
+          baseStageZ,
+        )
+      } else if (burger) {
+        stage.position.set(baseStageX, baseStageY, baseStageZ)
       }
+
       renderer.render(scene, camera)
       animationId = requestAnimationFrame(animate)
     }
@@ -112,9 +146,7 @@ export function Burger3D({ className = "", speed = 0.35 }: Burger3DProps) {
       const width = entries[0]?.contentRect.width ?? 0
       const height = entries[0]?.contentRect.height ?? width
       if (!width || !height) return
-      renderer.setSize(width, height)
-      camera.aspect = width / height
-      camera.updateProjectionMatrix()
+      frameBurger()
     })
 
     resizeObserver.observe(container)
@@ -123,18 +155,24 @@ export function Burger3D({ className = "", speed = 0.35 }: Burger3DProps) {
     return () => {
       cancelAnimationFrame(animationId)
       resizeObserver.disconnect()
-      burger.clear()
-      bunTopGeometry.dispose()
-      bunBottomGeometry.dispose()
-      pattyGeometry.dispose()
-      cheeseGeometry.dispose()
-      lettuceGeometry.dispose()
-      bunMaterial.dispose()
-      pattyMaterial.dispose()
-      cheeseMaterial.dispose()
-      lettuceMaterial.dispose()
+
+      stage.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.geometry.dispose()
+
+          if (Array.isArray(child.material)) {
+            child.material.forEach((material) => material.dispose())
+          } else {
+            child.material.dispose()
+          }
+        }
+      })
+
       renderer.dispose()
-      container.removeChild(renderer.domElement)
+
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement)
+      }
     }
   }, [speed])
 

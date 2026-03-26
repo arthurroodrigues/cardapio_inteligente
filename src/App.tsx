@@ -74,17 +74,30 @@ function App() {
       </header>
 
       <main className="hero">
-        <Burger3D className="hero-projection" />
-        <div className="hero-content">
-          <h1>
-            Big Mac e
-            <br />
-            Clássicos Inconfundíveis
-          </h1>
-          <p>
-            Variedade de sabores lendários com o toque McDonald’s que você
-            reconhece na primeira mordida.
-          </p>
+        <div className="hero-stage">
+          <div className="hero-decor" aria-hidden="true">
+            <span className="hero-word hero-word-left">BIG</span>
+            <span className="hero-word hero-word-right">MAC</span>
+          </div>
+
+          <div className="hero-content">
+            <h1>
+              Big Mac,
+              <br />
+              ícone instantâneo.
+            </h1>
+            <p>
+              Camadas lendárias, presença premium e um clássico reconhecido na
+              primeira olhada.
+            </p>
+            <div className="hero-actions">
+              <button className="hero-primary" type="button">
+                Explorar cardápio
+              </button>
+            </div>
+          </div>
+
+          <Burger3D className="hero-projection" />
         </div>
       </main>
     </div>
