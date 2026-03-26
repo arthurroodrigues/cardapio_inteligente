@@ -1,4 +1,4 @@
-import {
+﻿import {
   useEffect,
   useRef,
   useState,
@@ -29,9 +29,24 @@ type BurgerCard = {
   popular?: boolean
 }
 
+type SideCard = {
+  id: string
+  name: string
+  price: string
+  note: string
+  image: string
+  accent: string
+}
+
+type SmartSuggestion = {
+  combo: string
+  note: string
+  image: string
+}
+
 const navLinks: NavLink[] = [
   { label: 'Hamburguers', icon: 'burger', href: '#hamburgueres' },
-  { label: 'Acompanhamentos', icon: 'fries', href: '#' },
+  { label: 'Acompanhamentos', icon: 'fries', href: '#acompanhamentos' },
   { label: 'Bebidas', icon: 'drink', href: '#' },
   { label: 'Sobremesas', icon: 'icecream', href: '#' },
 ]
@@ -74,7 +89,7 @@ const burgerCards: BurgerCard[] = [
     id: 'big-mac',
     name: 'Big Mac',
     price: 'R$ 29,90',
-    note: 'O clássico de camadas lendárias que nunca sai de cena.',
+    note: 'O classico de camadas lendarias que nunca sai de cena.',
     image: '/assets/bigmac.png',
     accent: 'rgba(148, 163, 184, 0.14)',
     imageRotate: '-5deg',
@@ -84,9 +99,9 @@ const burgerCards: BurgerCard[] = [
   },
   {
     id: 'quarterao',
-    name: 'Quarterão',
+    name: 'Quarterao',
     price: 'R$ 31,90',
-    note: 'Carne marcante, queijo derretido e presença de sobra.',
+    note: 'Carne marcante, queijo derretido e presenca de sobra.',
     image: '/assets/bigmac.png',
     accent: 'rgba(203, 213, 225, 0.16)',
     imageRotate: '4deg',
@@ -108,7 +123,7 @@ const burgerCards: BurgerCard[] = [
     id: 'duplo-bacon',
     name: 'Duplo Bacon',
     price: 'R$ 34,90',
-    note: 'Perfil robusto com crocância e final defumado.',
+    note: 'Perfil robusto com crocancia e final defumado.',
     image: '/assets/bigmac.png',
     accent: 'rgba(148, 163, 184, 0.12)',
     imageRotate: '5deg',
@@ -161,10 +176,141 @@ const burgerCards: BurgerCard[] = [
   },
 ]
 
+const sideCards: SideCard[] = [
+  {
+    id: 'fries-grande',
+    name: 'McFritas Grande',
+    price: 'R$ 12,90',
+    note: 'Crocante por fora, macia por dentro e dourada na medida certa mas num tamanho maior.',
+    image: '/assets/acompanhamentos-1.svg',
+    accent: 'rgba(255, 199, 44, 0.26)',
+  },
+  {
+    id: 'cheddar-melt-fries',
+    name: 'McFritas Cheddar Bacon',
+    price: 'R$ 16,90',
+    note: 'Batatas cobertas com cheddar cremoso e bacon crocante para um toque mais indulgente.',
+    image: '/assets/acompanhamentos-2.svg',
+    accent: 'rgba(219, 0, 7, 0.14)',
+  },
+  {
+    id: 'fries-m',
+    name: 'McFritas Média',
+    price: 'R$ 18,90',
+    note: 'Crocante por fora, macia por dentro e dourada na medida e tamanho certos.',
+    image: '/assets/acompanhamentos-3.svg',
+    accent: 'rgba(95, 18, 0, 0.12)',
+  },
+  {
+    id: 'chicken-salad',
+    name: ' Salada Crispy Chicken',
+    price: 'R$ 14,90',
+    note: 'Pedaços de frango crocante sobre cama de folhas frescas, cenoura ralada e tomate cereja, acompanhada de molho especial para um toque extra de sabor.',
+    image: '/assets/acompanhamentos-4.svg',
+    accent: 'rgba(255, 199, 44, 0.18)',
+  },
+  {
+    id: 'nuggets-4',
+    name: 'Chicken McNuggets 4 Unidades',
+    price: 'R$ 13,90',
+    note: 'Porcao perfeita para um complemento rapido e crocante.',
+    image: '/assets/acompanhamentos-2.svg',
+    accent: 'rgba(255, 199, 44, 0.16)',
+  },
+  {
+    id: 'nuggets-6',
+    name: 'Chicken McNuggets 6 Unidades',
+    price: 'R$ 17,90',
+    note: 'Mais unidades para dividir ou aproveitar sem pressa.',
+    image: '/assets/acompanhamentos-3.svg',
+    accent: 'rgba(219, 0, 7, 0.12)',
+  },
+  {
+    id: 'nuggets-10',
+    name: 'Chicken McNuggets 10 Unidades',
+    price: 'R$ 23,90',
+    note: 'Opcão generosa para quem quer mais mordidas crocantes.',
+    image: '/assets/acompanhamentos-4.svg',
+    accent: 'rgba(95, 18, 0, 0.1)',
+  },
+  {
+    id: 'nuggets-15',
+    name: 'Chicken McNuggets 15 Unidades',
+    price: 'R$ 34,90',
+    note: 'Opcão maxima para quem quer compartilhar e aproveitar ao máximo.',
+    image: '/assets/acompanhamentos-1.svg',
+    accent: 'rgba(255, 199, 44, 0.24)',
+  },
+  {
+    id: 'fries-p',
+    name: 'McFritas Pequena',
+    price: 'R$ 11,90',
+    note: 'Opção pra quem quer rapidez, crocância e praticidade.',
+    image: '/assets/acompanhamentos-1.svg',
+    accent: 'rgba(255, 199, 44, 0.2)',
+  },
+  {
+    id: 'molho-barbecue',
+    name: 'Molho Barbecue',
+    price: 'R$ 8,90',
+    note: 'Complemento defumado e adocicado para realçar o sabor de batatas e nuggets.',
+    image: '/assets/acompanhamentos-2.svg',
+    accent: 'rgba(219, 0, 7, 0.16)',
+  },
+  {
+    id: 'cebola-crispy',
+    name: 'Cebola Crispy',
+    price: 'R$ 13,90',
+    note: 'Textura leve e crocante com toque dourado irresistivel.',
+    image: '/assets/acompanhamentos-4.svg',
+    accent: 'rgba(255, 199, 44, 0.18)',
+  },
+  {
+    id: 'molho-ranch',
+    name: 'Molho Ranch',
+    price: 'R$ 8,90',
+    note: 'Complemento cremoso para elevar batatas, nuggets e aneis.',
+    image: '/assets/acompanhamentos-3.svg',
+    accent: 'rgba(95, 18, 0, 0.11)',
+  },
+  {
+    id: 'salada-beef',
+    name: 'Salada Crispy Beef',
+    price: 'R$ 24,90',
+    note: 'Pedaços de carne crocante sobre cama de folhas frescas, cenoura ralada e tomate cereja, acompanhada de molho especial para um toque extra de sabor.',
+    image: '/assets/acompanhamentos-2.svg',
+    accent: 'rgba(219, 0, 7, 0.14)',
+  },
+  {
+    id: 'cheddar-dip',
+    name: 'Piscininha Cheddar',
+    price: 'R$ 8,90',
+    note: 'Complemento cremoso de cheddar para elevar batatas e nuggets.',
+    image: '/assets/acompanhamentos-3.svg',
+    accent: 'rgba(255, 199, 44, 0.15)',
+  },
+]
+
+const smartSuggestions: SmartSuggestion[] = [
+  {
+    combo: 'Big Mac + Batata + Refrigerante',
+    note: 'O combo classico com equilibrio entre crocancia, intensidade e refrescancia.',
+    image: '/assets/bigmac.png',
+  },
+  {
+    combo: 'McChicken + Nuggets + Bebida',
+    note: 'Uma combinacao leve e indulgente para quem quer variar sem perder sabor.',
+    image: '/assets/bigmac.png',
+  },
+]
+
 function App() {
   const [cartCount, setCartCount] = useState(5)
-  const [addedBurgerId, setAddedBurgerId] = useState<string | null>(null)
+  const [addedItemId, setAddedItemId] = useState<string | null>(null)
+  const [elevatedSideCardIds, setElevatedSideCardIds] = useState<string[]>([])
   const feedbackTimeoutRef = useRef<number | null>(null)
+  const sidesCarouselRef = useRef<HTMLDivElement | null>(null)
+  const isSidesCarouselPausedRef = useRef(false)
 
   useEffect(() => {
     return () => {
@@ -174,18 +320,137 @@ function App() {
     }
   }, [])
 
-  const handleAddToOrder = (burgerId: string) => {
+  useEffect(() => {
+    const track = sidesCarouselRef.current
+
+    if (!track) {
+      return
+    }
+
+    const intervalId = window.setInterval(() => {
+      if (isSidesCarouselPausedRef.current) {
+        return
+      }
+
+      const firstCard = track.querySelector<HTMLElement>('.side-card')
+      const styles = window.getComputedStyle(track)
+      const gap = Number.parseFloat(styles.columnGap || styles.gap || '14') || 14
+      const step = (firstCard?.offsetWidth ?? 240) + gap
+      const maxScroll = track.scrollWidth - track.clientWidth
+
+      if (track.scrollLeft >= maxScroll - step * 0.5) {
+        track.scrollTo({ left: 0, behavior: 'auto' })
+        return
+      }
+
+      track.scrollBy({
+        left: step,
+        behavior: 'smooth',
+      })
+    }, 2600)
+
+    return () => {
+      window.clearInterval(intervalId)
+    }
+  }, [])
+
+  useEffect(() => {
+    const track = sidesCarouselRef.current
+
+    if (!track) {
+      return
+    }
+
+    let frameId = 0
+
+    const updateElevatedCards = () => {
+      frameId = 0
+
+      const cards = Array.from(
+        track.querySelectorAll<HTMLElement>('[data-side-card-id]'),
+      )
+
+      if (cards.length === 0) {
+        return
+      }
+
+      const trackRect = track.getBoundingClientRect()
+      const centerX = trackRect.left + trackRect.width / 2
+
+      const nextIds = cards
+        .map((card) => ({
+          id: card.dataset.sideCardId ?? '',
+          distance: Math.abs(
+            card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2 - centerX,
+          ),
+        }))
+        .filter((card) => card.id)
+        .sort((left, right) => left.distance - right.distance)
+        .slice(0, 1)
+        .map((card) => card.id)
+
+      setElevatedSideCardIds((currentIds) => {
+        if (
+          currentIds.length === nextIds.length &&
+          currentIds.every((id, index) => id === nextIds[index])
+        ) {
+          return currentIds
+        }
+
+        return nextIds
+      })
+    }
+
+    const requestElevatedCardsUpdate = () => {
+      if (frameId !== 0) {
+        return
+      }
+
+      frameId = window.requestAnimationFrame(updateElevatedCards)
+    }
+
+    requestElevatedCardsUpdate()
+    track.addEventListener('scroll', requestElevatedCardsUpdate, { passive: true })
+    window.addEventListener('resize', requestElevatedCardsUpdate)
+
+    return () => {
+      track.removeEventListener('scroll', requestElevatedCardsUpdate)
+      window.removeEventListener('resize', requestElevatedCardsUpdate)
+
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId)
+      }
+    }
+  }, [])
+
+  const handleSidesCarousel = (direction: -1 | 1) => {
+    const track = sidesCarouselRef.current
+
+    if (!track) {
+      return
+    }
+
+    const firstCard = track.querySelector<HTMLElement>('.side-card')
+    const styles = window.getComputedStyle(track)
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || '14') || 14
+    const step = (firstCard?.offsetWidth ?? track.clientWidth) + gap
+
+    track.scrollBy({
+      left: step * direction,
+      behavior: 'smooth',
+    })
+  }
+
+  const handleAddToOrder = (itemId: string) => {
     setCartCount((currentCount) => currentCount + 1)
-    setAddedBurgerId(burgerId)
+    setAddedItemId(itemId)
 
     if (feedbackTimeoutRef.current !== null) {
       window.clearTimeout(feedbackTimeoutRef.current)
     }
 
     feedbackTimeoutRef.current = window.setTimeout(() => {
-      setAddedBurgerId((currentId) =>
-        currentId === burgerId ? null : currentId,
-      )
+      setAddedItemId((currentId) => (currentId === itemId ? null : currentId))
       feedbackTimeoutRef.current = null
     }, 1400)
   }
@@ -209,7 +474,7 @@ function App() {
         <div className="nav-actions">
           <button className="cart" type="button" aria-label="Cart">
             <span className="cart-icon" aria-hidden="true">
-              ▢
+              +
             </span>
             <span className="cart-badge">{cartCount}</span>
           </button>
@@ -231,15 +496,15 @@ function App() {
               <h1>
                 Big Mac,
                 <br />
-                ícone instantâneo.
+                icone instantaneo.
               </h1>
               <p>
-                Camadas lendárias, presença premium e um clássico reconhecido na
+                Camadas lendarias, presenca premium e um classico reconhecido na
                 primeira olhada.
               </p>
               <div className="hero-actions">
                 <a className="hero-primary" href="#hamburgueres">
-                  Explorar cardápio
+                  Explorar cardapio
                 </a>
               </div>
             </div>
@@ -260,16 +525,16 @@ function App() {
 
           <div className="burgers-shell">
             <div className="burgers-heading">
-              <p className="burgers-kicker">Seleção premium</p>
-              <h2 id="hamburgueres-heading">Hambúrgueres</h2>
+              <p className="burgers-kicker">Selecao premium</p>
+              <h2 id="hamburgueres-heading">Hamburgueres</h2>
               <p className="burgers-subtitle">
-                Clássicos que definem o sabor
+                Classicos que definem o sabor
               </p>
             </div>
 
             <div className="burgers-grid">
               {burgerCards.map((burger, index) => {
-                const isAdded = addedBurgerId === burger.id
+                const isAdded = addedItemId === burger.id
                 const cardStyle = {
                   '--card-accent': burger.accent,
                   '--image-rotate': burger.imageRotate,
@@ -289,7 +554,7 @@ function App() {
                     ) : null}
 
                     {burger.popular ? (
-                      <span className="burger-card-badge">Mais popular 🔥</span>
+                      <span className="burger-card-badge">Mais popular</span>
                     ) : null}
 
                     <div className="burger-card-media">
@@ -325,9 +590,139 @@ function App() {
             </div>
           </div>
         </section>
+
+        <section
+          className="sides-section"
+          id="acompanhamentos"
+          aria-labelledby="acompanhamentos-heading"
+        >
+          <div className="sides-shell">
+            <div className="sides-top">
+              <div className="sides-panel sides-panel-full">
+                <div className="sides-heading">
+                  <p className="sides-kicker">Complete sua experiencia</p>
+                  <h2 id="acompanhamentos-heading">Acompanhamentos</h2>
+                  <p className="sides-description">
+                    Escolhas pensadas para elevar cada pedido com mais crocancia,
+                    cremosidade e contraste na medida certa.
+                  </p>
+                </div>
+
+                <div
+                  className="sides-carousel"
+                  onMouseEnter={() => {
+                    isSidesCarouselPausedRef.current = true
+                  }}
+                  onMouseLeave={() => {
+                    isSidesCarouselPausedRef.current = false
+                  }}
+                >
+                  <button
+                    className="sides-arrow"
+                    type="button"
+                    aria-label="Mostrar acompanhamentos anteriores"
+                    onClick={() => handleSidesCarousel(-1)}
+                  >
+                    &lt;
+                  </button>
+
+                  <div className="sides-grid" ref={sidesCarouselRef}>
+                    {sideCards.map((side, index) => {
+                      const isAdded = addedItemId === side.id
+                      const cardStyle = {
+                        '--side-accent': side.accent,
+                        '--card-delay': `${0.12 * index}s`,
+                      } as CSSProperties
+
+                      const isElevated = elevatedSideCardIds.includes(side.id)
+
+                      return (
+                        <article
+                          key={side.id}
+                          data-side-card-id={side.id}
+                          className={`side-card${isAdded ? ' is-added' : ''}${isElevated ? ' is-elevated' : ''}`}
+                          style={cardStyle}
+                        >
+                          <div className="side-card-media">
+                            <div className="side-card-glow" aria-hidden="true" />
+                            <img
+                              className="side-card-image"
+                              src={side.image}
+                              alt={side.name}
+                              loading="lazy"
+                            />
+                          </div>
+
+                          <div className="side-card-body">
+                            <div className="side-card-copy">
+                              <h3>{side.name}</h3>
+                              <p>{side.note}</p>
+                            </div>
+
+                            <div className="side-card-footer">
+                              <strong>{side.price}</strong>
+                              <button
+                                className="side-card-button"
+                                type="button"
+                                onClick={() => handleAddToOrder(side.id)}
+                              >
+                                {isAdded ? 'Adicionado' : 'Adicionar'}
+                              </button>
+                            </div>
+                          </div>
+                        </article>
+                      )
+                    })}
+                  </div>
+
+                  <button
+                    className="sides-arrow"
+                    type="button"
+                    aria-label="Mostrar proximos acompanhamentos"
+                    onClick={() => handleSidesCarousel(1)}
+                  >
+                    &gt;
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="smart-suggestions">
+              <div className="smart-suggestions-heading">
+                <span className="smart-suggestions-label">
+                  Sugestoes inteligentes
+                </span>
+                <p>Combinacoes prontas para um pedido mais gostoso.</p>
+              </div>
+
+              <div className="smart-suggestions-grid">
+                {smartSuggestions.map((suggestion) => (
+                  <article
+                    key={suggestion.combo}
+                    className="smart-suggestion-card"
+                  >
+                    <div className="smart-suggestion-media">
+                      <img
+                        className="smart-suggestion-image"
+                        src={suggestion.image}
+                        alt={suggestion.combo}
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="smart-suggestion-copy">
+                      <strong>{suggestion.combo}</strong>
+                      <span>{suggestion.note}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   )
 }
 
 export default App
+
