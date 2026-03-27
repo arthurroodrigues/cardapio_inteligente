@@ -1,11 +1,12 @@
 ﻿import {
+  Suspense,
+  lazy,
   useEffect,
   useRef,
   useState,
   type CSSProperties,
   type JSX,
 } from 'react'
-import { Burger3D } from '@/components/ui/burger-3d'
 import './App.css'
 
 type NavIconKey = 'burger' | 'fries' | 'drink' | 'icecream'
@@ -38,16 +39,39 @@ type SideCard = {
   accent: string
 }
 
+type CarouselSideCard = SideCard & {
+  carouselId: string
+  sourceId: string
+}
+
 type SmartSuggestion = {
   combo: string
   note: string
   image: string
 }
 
+type BeverageSize = 'Pequeno' | 'Médio' | 'Grande'
+
+type BeverageCard = {
+  id: string
+  name: string
+  note: string
+  prices: Record<BeverageSize, string>
+  image: string
+  accent: string
+  sizes: BeverageSize[]
+  highlightedSize: BeverageSize
+}
+
+const Burger3D = lazy(async () => {
+  const module = await import('@/components/ui/burger-3d')
+  return { default: module.Burger3D }
+})
+
 const navLinks: NavLink[] = [
-  { label: 'Hamburguers', icon: 'burger', href: '#hamburgueres' },
+  { label: 'Hambúrgueres', icon: 'burger', href: '#hamburgueres' },
   { label: 'Acompanhamentos', icon: 'fries', href: '#acompanhamentos' },
-  { label: 'Bebidas', icon: 'drink', href: '#' },
+  { label: 'Bebidas', icon: 'drink', href: '#bebidas' },
   { label: 'Sobremesas', icon: 'icecream', href: '#' },
 ]
 
@@ -89,7 +113,7 @@ const burgerCards: BurgerCard[] = [
     id: 'big-mac',
     name: 'Big Mac',
     price: 'R$ 29,90',
-    note: 'O classico de camadas lendarias que nunca sai de cena.',
+    note: 'O clássico de camadas lendárias que nunca sai de cena.',
     image: '/assets/bigmac.png',
     accent: 'rgba(148, 163, 184, 0.14)',
     imageRotate: '-5deg',
@@ -99,10 +123,10 @@ const burgerCards: BurgerCard[] = [
   },
   {
     id: 'quarterao',
-    name: 'Quarterao',
+    name: 'Quarteirão',
     price: 'R$ 31,90',
-    note: 'Carne marcante, queijo derretido e presenca de sobra.',
-    image: '/assets/bigmac.png',
+    note: 'Carne marcante, queijo derretido e presença de sobra.',
+    image: '/assets/quarteirao.png',
     accent: 'rgba(203, 213, 225, 0.16)',
     imageRotate: '4deg',
     imageScale: '1.03',
@@ -113,7 +137,7 @@ const burgerCards: BurgerCard[] = [
     name: 'Cheddar McMelt',
     price: 'R$ 33,90',
     note: 'Cremoso, intenso e com assinatura indulgente.',
-    image: '/assets/bigmac.png',
+    image: '/assets/cheddar.png',
     accent: 'rgba(226, 232, 240, 0.18)',
     imageRotate: '-3deg',
     imageScale: '1.08',
@@ -123,8 +147,8 @@ const burgerCards: BurgerCard[] = [
     id: 'duplo-bacon',
     name: 'Duplo Bacon',
     price: 'R$ 34,90',
-    note: 'Perfil robusto com crocancia e final defumado.',
-    image: '/assets/bigmac.png',
+    note: 'Perfil robusto com crocância e final defumado.',
+    image: '/assets/duplobacon.png',
     accent: 'rgba(148, 163, 184, 0.12)',
     imageRotate: '5deg',
     imageScale: '1.05',
@@ -135,7 +159,7 @@ const burgerCards: BurgerCard[] = [
     name: 'McChicken',
     price: 'R$ 27,90',
     note: 'Leve, crocante e equilibrado para qualquer hora.',
-    image: '/assets/bigmac.png',
+    image: '/assets/mcchicken.png',
     accent: 'rgba(226, 232, 240, 0.16)',
     imageRotate: '-4deg',
     imageScale: '1.02',
@@ -146,7 +170,7 @@ const burgerCards: BurgerCard[] = [
     name: 'Big Tasty',
     price: 'R$ 36,90',
     note: 'Tamanho generoso e sabor que chega primeiro no aroma.',
-    image: '/assets/bigmac.png',
+    image: '/assets/tasty.png',
     accent: 'rgba(203, 213, 225, 0.14)',
     imageRotate: '3deg',
     imageScale: '1.09',
@@ -156,8 +180,8 @@ const burgerCards: BurgerCard[] = [
     id: 'duplo-cheddar-mcmelt',
     name: 'Duplo Cheddar McMelt',
     price: 'R$ 37,90',
-    note: 'Camada dupla, cheddar intenso e presenca ainda mais cremosa.',
-    image: '/assets/bigmac.png',
+    note: 'Camada dupla e ainda mais cheddar intenso.',
+    image: '/assets/duplocheddar.png',
     accent: 'rgba(226, 232, 240, 0.2)',
     imageRotate: '-2deg',
     imageScale: '1.1',
@@ -165,10 +189,10 @@ const burgerCards: BurgerCard[] = [
   },
   {
     id: 'mcnifico-bacon',
-    name: 'McNifico Bacon',
+    name: 'McNífico Bacon',
     price: 'R$ 38,90',
     note: 'Mais corpo, bacon crocante e uma assinatura bem marcante.',
-    image: '/assets/bigmac.png',
+    image: '/assets/mcnifico.pngc.png',
     accent: 'rgba(148, 163, 184, 0.16)',
     imageRotate: '4deg',
     imageScale: '1.07',
@@ -177,6 +201,22 @@ const burgerCards: BurgerCard[] = [
 ]
 
 const sideCards: SideCard[] = [
+  {
+    id: 'fries-p',
+    name: 'McFritas Pequena',
+    price: 'R$ 11,90',
+    note: 'Opção pra quem quer rapidez, crocância e praticidade.',
+    image: '/assets/acompanhamentos-1.svg',
+    accent: 'rgba(255, 199, 44, 0.2)',
+  },
+  {
+    id: 'fries-m',
+    name: 'McFritas Média',
+    price: 'R$ 18,90',
+    note: 'Crocante por fora, macia por dentro e dourada na medida e tamanho certos.',
+    image: '/assets/acompanhamentos-3.svg',
+    accent: 'rgba(95, 18, 0, 0.12)',
+  },
   {
     id: 'fries-grande',
     name: 'McFritas Grande',
@@ -194,26 +234,10 @@ const sideCards: SideCard[] = [
     accent: 'rgba(219, 0, 7, 0.14)',
   },
   {
-    id: 'fries-m',
-    name: 'McFritas Média',
-    price: 'R$ 18,90',
-    note: 'Crocante por fora, macia por dentro e dourada na medida e tamanho certos.',
-    image: '/assets/acompanhamentos-3.svg',
-    accent: 'rgba(95, 18, 0, 0.12)',
-  },
-  {
-    id: 'chicken-salad',
-    name: ' Salada Crispy Chicken',
-    price: 'R$ 14,90',
-    note: 'Pedaços de frango crocante sobre cama de folhas frescas, cenoura ralada e tomate cereja, acompanhada de molho especial para um toque extra de sabor.',
-    image: '/assets/acompanhamentos-4.svg',
-    accent: 'rgba(255, 199, 44, 0.18)',
-  },
-  {
     id: 'nuggets-4',
     name: 'Chicken McNuggets 4 Unidades',
     price: 'R$ 13,90',
-    note: 'Porcao perfeita para um complemento rapido e crocante.',
+    note: 'Porção perfeita para um complemento rápido e crocante.',
     image: '/assets/acompanhamentos-2.svg',
     accent: 'rgba(255, 199, 44, 0.16)',
   },
@@ -237,49 +261,33 @@ const sideCards: SideCard[] = [
     id: 'nuggets-15',
     name: 'Chicken McNuggets 15 Unidades',
     price: 'R$ 34,90',
-    note: 'Opcão maxima para quem quer compartilhar e aproveitar ao máximo.',
+    note: 'Opcão máxima para quem quer compartilhar e aproveitar ao máximo.',
     image: '/assets/acompanhamentos-1.svg',
     accent: 'rgba(255, 199, 44, 0.24)',
   },
   {
-    id: 'fries-p',
-    name: 'McFritas Pequena',
-    price: 'R$ 11,90',
-    note: 'Opção pra quem quer rapidez, crocância e praticidade.',
-    image: '/assets/acompanhamentos-1.svg',
-    accent: 'rgba(255, 199, 44, 0.2)',
+    id: 'molho-agridoce',
+    name: 'Molho Agridoce',
+    price: 'R$ 8,90',
+    note: 'Complemento adocicado e levemente picante para realçar o sabor de batatas e nuggets.',
+    image: '/assets/acompanhamentos-4.svg',
+    accent: 'rgba(255, 199, 44, 0.18)',
   },
   {
     id: 'molho-barbecue',
     name: 'Molho Barbecue',
     price: 'R$ 8,90',
-    note: 'Complemento defumado e adocicado para realçar o sabor de batatas e nuggets.',
+    note: 'Complemento defumado e adocicado para realçar o sabor de batatas e nuggets.',  
     image: '/assets/acompanhamentos-2.svg',
     accent: 'rgba(219, 0, 7, 0.16)',
-  },
-  {
-    id: 'cebola-crispy',
-    name: 'Cebola Crispy',
-    price: 'R$ 13,90',
-    note: 'Textura leve e crocante com toque dourado irresistivel.',
-    image: '/assets/acompanhamentos-4.svg',
-    accent: 'rgba(255, 199, 44, 0.18)',
   },
   {
     id: 'molho-ranch',
     name: 'Molho Ranch',
     price: 'R$ 8,90',
-    note: 'Complemento cremoso para elevar batatas, nuggets e aneis.',
+    note: 'Complemento cremoso para elevar batatas, nuggets e anéis.',
     image: '/assets/acompanhamentos-3.svg',
     accent: 'rgba(95, 18, 0, 0.11)',
-  },
-  {
-    id: 'salada-beef',
-    name: 'Salada Crispy Beef',
-    price: 'R$ 24,90',
-    note: 'Pedaços de carne crocante sobre cama de folhas frescas, cenoura ralada e tomate cereja, acompanhada de molho especial para um toque extra de sabor.',
-    image: '/assets/acompanhamentos-2.svg',
-    accent: 'rgba(219, 0, 7, 0.14)',
   },
   {
     id: 'cheddar-dip',
@@ -289,28 +297,261 @@ const sideCards: SideCard[] = [
     image: '/assets/acompanhamentos-3.svg',
     accent: 'rgba(255, 199, 44, 0.15)',
   },
+  {
+    id: 'chicken-salad',
+    name: 'Salada Crispy Chicken',
+    price: 'R$ 14,90',
+    note: 'Pedaços de frango crocante sobre cama de folhas frescas, cenoura ralada e tomate cereja, acompanhada de molho especial para um toque extra de sabor.',
+    image: '/assets/acompanhamentos-4.svg',
+    accent: 'rgba(255, 199, 44, 0.18)',
+  },
+  {
+    id: 'salada-beef',
+    name: 'Salada Crispy Beef',
+    price: 'R$ 24,90',
+    note: 'Pedaços de carne crocante sobre cama de folhas frescas, cenoura ralada e tomate cereja, acompanhada de molho especial para um toque extra de sabor.',
+    image: '/assets/acompanhamentos-2.svg',
+    accent: 'rgba(219, 0, 7, 0.14)',
+  },
 ]
+
+const orderedSideCards = sideCards
+
+const carouselSideCards: CarouselSideCard[] = Array.from(
+  { length: 3 },
+  (_, copyIndex) =>
+    orderedSideCards.map((card, cardIndex) => ({
+      ...card,
+      sourceId: card.id,
+      carouselId: `${copyIndex}-${cardIndex}-${card.id}`,
+    })),
+).flat()
 
 const smartSuggestions: SmartSuggestion[] = [
   {
     combo: 'Big Mac + Batata + Refrigerante',
-    note: 'O combo classico com equilibrio entre crocancia, intensidade e refrescancia.',
+    note: 'O combo clássico com equilíbrio entre crocância, intensidade e refrescância.',
     image: '/assets/bigmac.png',
   },
   {
     combo: 'McChicken + Nuggets + Bebida',
-    note: 'Uma combinacao leve e indulgente para quem quer variar sem perder sabor.',
+    note: 'Uma combinação leve e indulgente para quem quer variar sem perder sabor.',
     image: '/assets/bigmac.png',
   },
 ]
 
+const beverageCards: BeverageCard[] = [
+  {
+    id: 'coca-cola',
+    name: 'Coca-Cola',
+    note: 'Gelada, sabor clássico e refrescância imediata para acompanhar qualquer pedido.',
+    prices: {
+      Pequeno: 'R$ 7,90',
+      Médio: 'R$ 9,90',
+      Grande: 'R$ 11,90',
+    },
+    image: '/assets/drink-coca.svg',
+    accent: 'rgba(219, 0, 7, 0.18)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+  {
+    id: 'coca-cola-zero',
+    name: 'Coca-Cola Zero',
+    note: 'Leve no paladar e intensa no frescor, com o mesmo ritual gelado do clássico.',
+    prices: {
+      Pequeno: 'R$ 7,90',
+      Médio: 'R$ 9,90',
+      Grande: 'R$ 11,90',
+    },
+    image: '/assets/drink-zero.svg',
+    accent: 'rgba(255, 255, 255, 0.18)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+  {
+    id: 'fanta-laranja',
+    name: 'Fanta Laranja',
+    note: 'Cítrica, vibrante e cheia de energia para trazer contraste ao pedido.',
+    prices: {
+      Pequeno: 'R$ 7,50',
+      Médio: 'R$ 9,50',
+      Grande: 'R$ 11,50',
+    },
+    image: '/assets/drink-fanta.svg',
+    accent: 'rgba(255, 199, 44, 0.2)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+  {
+    id: 'sprite',
+    name: 'Sprite',
+    note: 'Perfil crisp, borbulhas leves e uma sensação super refrescante do primeiro gole.',
+    prices: {
+      Pequeno: 'R$ 7,50',
+      Médio: 'R$ 9,50',
+      Grande: 'R$ 11,50',
+    },
+    image: '/assets/drink-sprite.svg',
+    accent: 'rgba(208, 255, 228, 0.22)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+  {
+    id: 'suco-laranja',
+    name: 'Suco de Laranja',
+    note: 'Mais natural, aromático e equilibrado para quem quer frescor com toque frutado.',
+    prices: {
+      Pequeno: 'R$ 8,90',
+      Médio: 'R$ 11,90',
+      Grande: 'R$ 14,90',
+    },
+    image: '/assets/drink-suco.svg',
+    accent: 'rgba(255, 184, 77, 0.2)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+  {
+    id: 'guarana',
+    name: 'Guaraná',
+    note: 'Doce na medida, super gelado e com um perfil clássico para combos mais intensos.',
+    prices: {
+      Pequeno: 'R$ 7,90',
+      Médio: 'R$ 9,90',
+      Grande: 'R$ 11,90',
+    },
+    image: '/assets/drink-guarana.svg',
+    accent: 'rgba(87, 171, 74, 0.22)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+  {
+    id: 'cha-gelado',
+    name: 'Chá Gelado',
+    note: 'RefrescÃ¢ncia suave com perfil leve e um toque aromático para equilibrar o pedido.',
+    prices: {
+      Pequeno: 'R$ 8,50',
+      Médio: 'R$ 10,50',
+      Grande: 'R$ 12,50',
+    },
+    image: '/assets/drink-cha.svg',
+    accent: 'rgba(251, 191, 36, 0.22)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+  {
+    id: 'del-valle-uva',
+    name: 'Del Valle Uva',
+    note: 'Mais encorpado, frutado e com uma pegada doce que funciona muito bem gelado.',
+    prices: {
+      Pequeno: 'R$ 8,90',
+      Médio: 'R$ 11,90',
+      Grande: 'R$ 14,90',
+    },
+    image: '/assets/drink-uva.svg',
+    accent: 'rgba(147, 51, 234, 0.22)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+  {
+    id: 'agua-mineral',
+    name: 'Água Mineral',
+    note: 'Leve, limpa e essencial para quem quer uma escolha mais neutra e refrescante.',
+    prices: {
+      Pequeno: 'R$ 5,50',
+      Médio: 'R$ 7,50',
+      Grande: 'R$ 9,50',
+    },
+    image: '/assets/drink-agua.svg',
+    accent: 'rgba(125, 211, 252, 0.22)',
+    sizes: ['Pequeno', 'Médio', 'Grande'],
+    highlightedSize: 'Médio',
+  },
+]
+
+const beverageSizeLabels: Record<BeverageSize, string> = {
+  Pequeno: '300 ml',
+  Médio: '500 ml',
+  Grande: '700 ml',
+}
+
+const initialBeverageSizes = beverageCards.reduce<Record<string, BeverageSize>>(
+  (selectedSizes, drink) => {
+    selectedSizes[drink.id] = drink.highlightedSize
+    return selectedSizes
+  },
+  {},
+)
+
 function App() {
   const [cartCount, setCartCount] = useState(5)
   const [addedItemId, setAddedItemId] = useState<string | null>(null)
-  const [elevatedSideCardIds, setElevatedSideCardIds] = useState<string[]>([])
+  const [elevatedSideCardId, setElevatedSideCardId] = useState<string | null>(null)
+  const [selectedBeverageSizes, setSelectedBeverageSizes] =
+    useState<Record<string, BeverageSize>>(initialBeverageSizes)
   const feedbackTimeoutRef = useRef<number | null>(null)
   const sidesCarouselRef = useRef<HTMLDivElement | null>(null)
   const isSidesCarouselPausedRef = useRef(false)
+  const sidesCarouselMetricsRef = useRef({ step: 0, gap: 14, cycleWidth: 0 })
+
+  const getSidesCarouselMetrics = () => {
+    const track = sidesCarouselRef.current
+
+    if (!track) {
+      return null
+    }
+
+    const firstCard = track.querySelector<HTMLElement>('.side-card')
+
+    if (!firstCard) {
+      return null
+    }
+
+    const styles = window.getComputedStyle(track)
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || '14') || 14
+    const step = firstCard.offsetWidth + gap
+    const cycleWidth = step * orderedSideCards.length
+
+    sidesCarouselMetricsRef.current = { step, gap, cycleWidth }
+
+    return {
+      track,
+      step,
+      gap,
+      cycleWidth,
+    }
+  }
+
+  const syncSidesCarousel = () => {
+    const metrics = getSidesCarouselMetrics()
+
+    if (!metrics) {
+      return null
+    }
+
+    if (metrics.track.scrollLeft <= metrics.step * 0.5) {
+      metrics.track.scrollLeft += metrics.cycleWidth
+    } else if (
+      metrics.track.scrollLeft >= metrics.cycleWidth * 2 - metrics.step * 0.5
+    ) {
+      metrics.track.scrollLeft -= metrics.cycleWidth
+    }
+
+    const visibleCards = Math.max(
+      1,
+      Math.round((metrics.track.clientWidth + metrics.gap) / metrics.step),
+    )
+    const centeredIndex =
+      Math.round(metrics.track.scrollLeft / metrics.step) +
+      Math.floor(visibleCards / 2)
+    const nextElevatedId = carouselSideCards[centeredIndex]?.carouselId ?? null
+
+    setElevatedSideCardId((currentId) =>
+      currentId === nextElevatedId ? currentId : nextElevatedId,
+    )
+
+    return metrics
+  }
 
   useEffect(() => {
     return () => {
@@ -327,95 +568,40 @@ function App() {
       return
     }
 
-    const intervalId = window.setInterval(() => {
-      if (isSidesCarouselPausedRef.current) {
-        return
-      }
-
-      const firstCard = track.querySelector<HTMLElement>('.side-card')
-      const styles = window.getComputedStyle(track)
-      const gap = Number.parseFloat(styles.columnGap || styles.gap || '14') || 14
-      const step = (firstCard?.offsetWidth ?? 240) + gap
-      const maxScroll = track.scrollWidth - track.clientWidth
-
-      if (track.scrollLeft >= maxScroll - step * 0.5) {
-        track.scrollTo({ left: 0, behavior: 'auto' })
-        return
-      }
-
-      track.scrollBy({
-        left: step,
-        behavior: 'smooth',
-      })
-    }, 2600)
-
-    return () => {
-      window.clearInterval(intervalId)
-    }
-  }, [])
-
-  useEffect(() => {
-    const track = sidesCarouselRef.current
-
-    if (!track) {
-      return
-    }
-
     let frameId = 0
 
-    const updateElevatedCards = () => {
-      frameId = 0
-
-      const cards = Array.from(
-        track.querySelectorAll<HTMLElement>('[data-side-card-id]'),
-      )
-
-      if (cards.length === 0) {
-        return
-      }
-
-      const trackRect = track.getBoundingClientRect()
-      const centerX = trackRect.left + trackRect.width / 2
-
-      const nextIds = cards
-        .map((card) => ({
-          id: card.dataset.sideCardId ?? '',
-          distance: Math.abs(
-            card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2 - centerX,
-          ),
-        }))
-        .filter((card) => card.id)
-        .sort((left, right) => left.distance - right.distance)
-        .slice(0, 1)
-        .map((card) => card.id)
-
-      setElevatedSideCardIds((currentIds) => {
-        if (
-          currentIds.length === nextIds.length &&
-          currentIds.every((id, index) => id === nextIds[index])
-        ) {
-          return currentIds
-        }
-
-        return nextIds
-      })
-    }
-
-    const requestElevatedCardsUpdate = () => {
+    const requestSync = () => {
       if (frameId !== 0) {
         return
       }
 
-      frameId = window.requestAnimationFrame(updateElevatedCards)
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0
+        syncSidesCarousel()
+      })
     }
 
-    requestElevatedCardsUpdate()
-    track.addEventListener('scroll', requestElevatedCardsUpdate, { passive: true })
-    window.addEventListener('resize', requestElevatedCardsUpdate)
+    const resizeObserver = new ResizeObserver(() => {
+      requestSync()
+    })
+
+    resizeObserver.observe(track)
+
+    const initialFrameId = window.requestAnimationFrame(() => {
+      const metrics = syncSidesCarousel()
+
+      if (metrics) {
+        metrics.track.scrollLeft = metrics.cycleWidth
+        syncSidesCarousel()
+      }
+    })
+
+    track.addEventListener('scroll', requestSync, { passive: true })
 
     return () => {
-      track.removeEventListener('scroll', requestElevatedCardsUpdate)
-      window.removeEventListener('resize', requestElevatedCardsUpdate)
+      track.removeEventListener('scroll', requestSync)
+      resizeObserver.disconnect()
+      window.cancelAnimationFrame(initialFrameId)
 
       if (frameId !== 0) {
         window.cancelAnimationFrame(frameId)
@@ -423,20 +609,38 @@ function App() {
     }
   }, [])
 
-  const handleSidesCarousel = (direction: -1 | 1) => {
-    const track = sidesCarouselRef.current
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      if (isSidesCarouselPausedRef.current) {
+        return
+      }
 
-    if (!track) {
+      const metrics = syncSidesCarousel()
+
+      if (!metrics) {
+        return
+      }
+
+      metrics.track.scrollBy({
+        left: metrics.step,
+        behavior: 'smooth',
+      })
+    }, 3000)
+
+    return () => {
+      window.clearInterval(intervalId)
+    }
+  }, [])
+
+  const handleSidesCarousel = (direction: -1 | 1) => {
+    const metrics = getSidesCarouselMetrics()
+
+    if (!metrics) {
       return
     }
 
-    const firstCard = track.querySelector<HTMLElement>('.side-card')
-    const styles = window.getComputedStyle(track)
-    const gap = Number.parseFloat(styles.columnGap || styles.gap || '14') || 14
-    const step = (firstCard?.offsetWidth ?? track.clientWidth) + gap
-
-    track.scrollBy({
-      left: step * direction,
+    metrics.track.scrollBy({
+      left: metrics.step * direction,
       behavior: 'smooth',
     })
   }
@@ -453,6 +657,19 @@ function App() {
       setAddedItemId((currentId) => (currentId === itemId ? null : currentId))
       feedbackTimeoutRef.current = null
     }, 1400)
+  }
+
+  const handleBeverageSizeSelect = (drinkId: string, size: BeverageSize) => {
+    setSelectedBeverageSizes((currentSizes) => {
+      if (currentSizes[drinkId] === size) {
+        return currentSizes
+      }
+
+      return {
+        ...currentSizes,
+        [drinkId]: size,
+      }
+    })
   }
 
   return (
@@ -496,20 +713,28 @@ function App() {
               <h1>
                 Big Mac,
                 <br />
-                icone instantaneo.
+                ícone instantâneo.
               </h1>
               <p>
-                Camadas lendarias, presenca premium e um classico reconhecido na
+                Camadas lendárias, presença premium e um clássico reconhecido na
                 primeira olhada.
               </p>
               <div className="hero-actions">
                 <a className="hero-primary" href="#hamburgueres">
-                  Explorar cardapio
+                  Explorar cardápio
                 </a>
               </div>
             </div>
 
-            <Burger3D className="hero-projection" />
+            <Suspense
+              fallback={
+                <div className="projection-root hero-projection hero-projection-fallback" aria-hidden="true">
+                  <img src="/assets/bigmac.png" alt="" />
+                </div>
+              }
+            >
+              <Burger3D className="hero-projection" />
+            </Suspense>
           </div>
         </section>
 
@@ -525,10 +750,10 @@ function App() {
 
           <div className="burgers-shell">
             <div className="burgers-heading">
-              <p className="burgers-kicker">Selecao premium</p>
-              <h2 id="hamburgueres-heading">Hamburgueres</h2>
+              <p className="burgers-kicker">Seleção clássica</p>
+              <h2 id="hamburgueres-heading">Hambúrgueres</h2>
               <p className="burgers-subtitle">
-                Classicos que definem o sabor
+                Clássicos que definem o sabor
               </p>
             </div>
 
@@ -600,10 +825,10 @@ function App() {
             <div className="sides-top">
               <div className="sides-panel sides-panel-full">
                 <div className="sides-heading">
-                  <p className="sides-kicker">Complete sua experiencia</p>
+                  <p className="sides-kicker">Complete sua experiência</p>
                   <h2 id="acompanhamentos-heading">Acompanhamentos</h2>
                   <p className="sides-description">
-                    Escolhas pensadas para elevar cada pedido com mais crocancia,
+                    Escolhas pensadas para elevar cada pedido com mais crocância,
                     cremosidade e contraste na medida certa.
                   </p>
                 </div>
@@ -627,19 +852,19 @@ function App() {
                   </button>
 
                   <div className="sides-grid" ref={sidesCarouselRef}>
-                    {sideCards.map((side, index) => {
-                      const isAdded = addedItemId === side.id
+                    {carouselSideCards.map((side, index) => {
+                      const isAdded = addedItemId === side.sourceId
                       const cardStyle = {
                         '--side-accent': side.accent,
                         '--card-delay': `${0.12 * index}s`,
                       } as CSSProperties
 
-                      const isElevated = elevatedSideCardIds.includes(side.id)
+                      const isElevated = elevatedSideCardId === side.carouselId
 
                       return (
                         <article
-                          key={side.id}
-                          data-side-card-id={side.id}
+                          key={side.carouselId}
+                          data-side-card-id={side.carouselId}
                           className={`side-card${isAdded ? ' is-added' : ''}${isElevated ? ' is-elevated' : ''}`}
                           style={cardStyle}
                         >
@@ -664,7 +889,7 @@ function App() {
                               <button
                                 className="side-card-button"
                                 type="button"
-                                onClick={() => handleAddToOrder(side.id)}
+                                onClick={() => handleAddToOrder(side.sourceId)}
                               >
                                 {isAdded ? 'Adicionado' : 'Adicionar'}
                               </button>
@@ -678,7 +903,7 @@ function App() {
                   <button
                     className="sides-arrow"
                     type="button"
-                    aria-label="Mostrar proximos acompanhamentos"
+                    aria-label="Mostrar próximos acompanhamentos"
                     onClick={() => handleSidesCarousel(1)}
                   >
                     &gt;
@@ -690,9 +915,9 @@ function App() {
             <div className="smart-suggestions">
               <div className="smart-suggestions-heading">
                 <span className="smart-suggestions-label">
-                  Sugestoes inteligentes
+                  Sugestões inteligentes
                 </span>
-                <p>Combinacoes prontas para um pedido mais gostoso.</p>
+                <p>Combinações prontas para um pedido mais gostoso.</p>
               </div>
 
               <div className="smart-suggestions-grid">
@@ -715,6 +940,92 @@ function App() {
                     </div>
                   </article>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="drinks-section" id="bebidas" aria-labelledby="bebidas-heading">
+          <div className="drinks-shell">
+            <div className="drinks-content">
+              <div className="drinks-heading">
+                <p className="drinks-kicker">Escolha gelada</p>
+                <h2 id="bebidas-heading">Bebidas</h2>
+                <p className="drinks-description">
+                  Refresque seu pedido com a escolha perfeita. Cada opção foi pensada
+                  para entrar com equilíbrio, frescor e uma presença gelada que valoriza o combo.
+                </p>
+              </div>
+
+              <div className="drinks-grid">
+                {beverageCards.map((drink, index) => {
+                  const isAdded = addedItemId === drink.id
+                  const selectedSize =
+                    selectedBeverageSizes[drink.id] ?? drink.highlightedSize
+                  const selectedPrice = drink.prices[selectedSize]
+                  const cardStyle = {
+                    '--drink-accent': drink.accent,
+                    '--card-delay': `${0.08 * index}s`,
+                  } as CSSProperties
+
+                  return (
+                    <article
+                      key={drink.id}
+                      className={`drink-card${isAdded ? ' is-added' : ''}`}
+                      style={cardStyle}
+                    >
+                      <div className="drink-card-top">
+                        <div className="drink-card-media">
+                          <div className="drink-card-glow" aria-hidden="true" />
+                          <img
+                            className="drink-card-image"
+                            src={drink.image}
+                            alt=""
+                            loading="lazy"
+                            aria-hidden="true"
+                          />
+                        </div>
+
+                        <div className="drink-card-copy">
+                          <h3>{drink.name}</h3>
+                          <p>{drink.note}</p>
+                        </div>
+                      </div>
+
+                      <div className="drink-card-footer">
+                        <div className="drink-card-meta">
+                          <strong>{selectedPrice}</strong>
+                          <div className="drink-card-sizes" aria-label={`Tamanhos de ${drink.name}`}>
+                            {drink.sizes.map((size) => {
+                              const isSelected = size === selectedSize
+
+                              return (
+                                <button
+                                  key={`${drink.id}-${size}`}
+                                  className={`drink-size-chip${isSelected ? ' is-active' : ''}`}
+                                  type="button"
+                                  aria-pressed={isSelected}
+                                  onClick={() => handleBeverageSizeSelect(drink.id, size)}
+                                >
+                                  <span>{size}</span>
+                                  <small>{beverageSizeLabels[size]}</small>
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+
+                        <button
+                          className="drink-card-button"
+                          type="button"
+                          onClick={() => handleAddToOrder(drink.id)}
+                        >
+                          {isAdded ? 'Adicionado' : 'Adicionar'}
+                        </button>
+                      </div>
+                    </article>
+                  )
+                })}
               </div>
             </div>
           </div>

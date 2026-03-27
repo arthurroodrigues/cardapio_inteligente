@@ -10,6 +10,9 @@ interface Burger3DProps {
 }
 
 const MODEL_URL = "/models/current-burger.glb"
+const MAX_PIXEL_RATIO = 1.25
+const TARGET_FPS = 30
+const FRAME_TIME = 1000 / TARGET_FPS
 
 export function Burger3D({ className = "", speed = 0.22 }: Burger3DProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -22,23 +25,27 @@ export function Burger3D({ className = "", speed = 0.22 }: Burger3DProps) {
     const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100)
     camera.position.set(0, 0.4, 8)
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    const renderer = new THREE.WebGLRenderer({
+      antialias: false,
+      alpha: true,
+      powerPreference: "high-performance",
+    })
     renderer.outputColorSpace = THREE.SRGBColorSpace
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO))
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
-    const ambient = new THREE.AmbientLight(0xffffff, 1.4)
+    const ambient = new THREE.AmbientLight(0xffffff, 1.2)
     scene.add(ambient)
 
-    const hemiLight = new THREE.HemisphereLight(0xfff2c4, 0x8f2000, 1.4)
+    const hemiLight = new THREE.HemisphereLight(0xfff2c4, 0x8f2000, 1.2)
     scene.add(hemiLight)
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.4)
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2)
     keyLight.position.set(6, 8, 10)
     scene.add(keyLight)
 
-    const rimLight = new THREE.DirectionalLight(0xffd36e, 1.6)
+    const rimLight = new THREE.DirectionalLight(0xffd36e, 1.3)
     rimLight.position.set(-5, 3, -6)
     scene.add(rimLight)
 
@@ -48,16 +55,19 @@ export function Burger3D({ className = "", speed = 0.22 }: Burger3DProps) {
     const loader = new GLTFLoader()
     let burger: THREE.Group | null = null
     let animationId = 0
+    let lastFrameTime = 0
     let baseStageX = 0
     let baseStageY = 0
     let baseStageZ = 0
+    let isInViewport = true
+    let isDocumentVisible = document.visibilityState !== "hidden"
 
     const frameBurger = () => {
       const width = container.clientWidth || 1
       const height = container.clientHeight || width
       const aspect = width / height
 
-      renderer.setSize(width, height)
+      renderer.setSize(width, height, false)
       camera.aspect = aspect
 
       if (!burger) {
@@ -112,6 +122,7 @@ export function Burger3D({ className = "", speed = 0.22 }: Burger3DProps) {
 
         stage.add(burger)
         frameBurger()
+        renderer.render(scene, camera)
       },
       undefined,
       (error) => {
@@ -119,27 +130,41 @@ export function Burger3D({ className = "", speed = 0.22 }: Burger3DProps) {
       },
     )
 
-    const clock = new THREE.Clock()
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches
 
-    const animate = () => {
-      const elapsed = clock.getElapsedTime()
+    const animate = (time: number) => {
+      animationId = requestAnimationFrame(animate)
 
-      if (burger && !prefersReducedMotion) {
+      if (time - lastFrameTime < FRAME_TIME) {
+        return
+      }
+
+      lastFrameTime = time
+
+      if (!burger) {
+        return
+      }
+
+      if (!isInViewport || !isDocumentVisible) {
+        return
+      }
+
+      const elapsed = time / 1000
+
+      if (!prefersReducedMotion) {
         burger.rotation.y = -0.72 + elapsed * speed
         stage.position.set(
           baseStageX,
-          baseStageY + Math.sin(elapsed * 1.4) * 0.04,
+          baseStageY + Math.sin(elapsed * 1.2) * 0.03,
           baseStageZ,
         )
-      } else if (burger) {
+      } else {
         stage.position.set(baseStageX, baseStageY, baseStageZ)
       }
 
       renderer.render(scene, camera)
-      animationId = requestAnimationFrame(animate)
     }
 
     const resizeObserver = new ResizeObserver((entries) => {
@@ -147,14 +172,30 @@ export function Burger3D({ className = "", speed = 0.22 }: Burger3DProps) {
       const height = entries[0]?.contentRect.height ?? width
       if (!width || !height) return
       frameBurger()
+      renderer.render(scene, camera)
     })
 
+    const intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        isInViewport = entries[0]?.isIntersecting ?? true
+      },
+      { threshold: 0.08 },
+    )
+
+    const handleVisibilityChange = () => {
+      isDocumentVisible = document.visibilityState !== "hidden"
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
     resizeObserver.observe(container)
-    animate()
+    intersectionObserver.observe(container)
+    animationId = requestAnimationFrame(animate)
 
     return () => {
       cancelAnimationFrame(animationId)
       resizeObserver.disconnect()
+      intersectionObserver.disconnect()
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
 
       stage.traverse((child) => {
         if (child instanceof THREE.Mesh) {
