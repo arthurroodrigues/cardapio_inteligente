@@ -206,7 +206,7 @@ const sideCards: SideCard[] = [
     name: 'McFritas Pequena',
     price: 'R$ 11,90',
     note: 'Opção pra quem quer rapidez, crocância e praticidade.',
-    image: '/assets/acompanhamentos-1.svg',
+    image: '/assets/mcfritasp.png',
     accent: 'rgba(255, 199, 44, 0.2)',
   },
   {
@@ -214,7 +214,7 @@ const sideCards: SideCard[] = [
     name: 'McFritas Média',
     price: 'R$ 18,90',
     note: 'Crocante por fora, macia por dentro e dourada na medida e tamanho certos.',
-    image: '/assets/acompanhamentos-3.svg',
+    image: '/assets/mcfritasm.png',
     accent: 'rgba(95, 18, 0, 0.12)',
   },
   {
@@ -222,7 +222,7 @@ const sideCards: SideCard[] = [
     name: 'McFritas Grande',
     price: 'R$ 12,90',
     note: 'Crocante por fora, macia por dentro e dourada na medida certa mas num tamanho maior.',
-    image: '/assets/acompanhamentos-1.svg',
+    image: '/assets/mcfritasg.png',
     accent: 'rgba(255, 199, 44, 0.26)',
   },
   {
@@ -230,7 +230,7 @@ const sideCards: SideCard[] = [
     name: 'McFritas Cheddar Bacon',
     price: 'R$ 16,90',
     note: 'Batatas cobertas com cheddar cremoso e bacon crocante para um toque mais indulgente.',
-    image: '/assets/acompanhamentos-2.svg',
+    image: '/assets/mcfritascheddar.png',
     accent: 'rgba(219, 0, 7, 0.14)',
   },
   {
@@ -238,7 +238,7 @@ const sideCards: SideCard[] = [
     name: 'Chicken McNuggets 4 Unidades',
     price: 'R$ 13,90',
     note: 'Porção perfeita para um complemento rápido e crocante.',
-    image: '/assets/acompanhamentos-2.svg',
+    image: '/assets/n4.png',
     accent: 'rgba(255, 199, 44, 0.16)',
   },
   {
@@ -246,7 +246,7 @@ const sideCards: SideCard[] = [
     name: 'Chicken McNuggets 6 Unidades',
     price: 'R$ 17,90',
     note: 'Mais unidades para dividir ou aproveitar sem pressa.',
-    image: '/assets/acompanhamentos-3.svg',
+    image: '/assets/n6.png',
     accent: 'rgba(219, 0, 7, 0.12)',
   },
   {
@@ -254,7 +254,7 @@ const sideCards: SideCard[] = [
     name: 'Chicken McNuggets 10 Unidades',
     price: 'R$ 23,90',
     note: 'Opcão generosa para quem quer mais mordidas crocantes.',
-    image: '/assets/acompanhamentos-4.svg',
+    image: '/assets/n10.png',
     accent: 'rgba(95, 18, 0, 0.1)',
   },
   {
@@ -262,7 +262,7 @@ const sideCards: SideCard[] = [
     name: 'Chicken McNuggets 15 Unidades',
     price: 'R$ 34,90',
     note: 'Opcão máxima para quem quer compartilhar e aproveitar ao máximo.',
-    image: '/assets/acompanhamentos-1.svg',
+    image: '/assets/n15.png',
     accent: 'rgba(255, 199, 44, 0.24)',
   },
   {
@@ -270,7 +270,7 @@ const sideCards: SideCard[] = [
     name: 'Molho Agridoce',
     price: 'R$ 8,90',
     note: 'Complemento adocicado e levemente picante para realçar o sabor de batatas e nuggets.',
-    image: '/assets/acompanhamentos-4.svg',
+    image: '/assets/agridocee..png',
     accent: 'rgba(255, 199, 44, 0.18)',
   },
   {
@@ -278,7 +278,7 @@ const sideCards: SideCard[] = [
     name: 'Molho Barbecue',
     price: 'R$ 8,90',
     note: 'Complemento defumado e adocicado para realçar o sabor de batatas e nuggets.',  
-    image: '/assets/acompanhamentos-2.svg',
+    image: '/assets/bbq.png',
     accent: 'rgba(219, 0, 7, 0.16)',
   },
   {
@@ -286,7 +286,7 @@ const sideCards: SideCard[] = [
     name: 'Molho Ranch',
     price: 'R$ 8,90',
     note: 'Complemento cremoso para elevar batatas, nuggets e anéis.',
-    image: '/assets/acompanhamentos-3.svg',
+    image: '/assets/ranch.png',
     accent: 'rgba(95, 18, 0, 0.11)',
   },
   {
@@ -294,7 +294,7 @@ const sideCards: SideCard[] = [
     name: 'Piscininha Cheddar',
     price: 'R$ 8,90',
     note: 'Complemento cremoso de cheddar para elevar batatas e nuggets.',
-    image: '/assets/acompanhamentos-3.svg',
+    image: '/assets/cheddardip.png',
     accent: 'rgba(255, 199, 44, 0.15)',
   },
   {
@@ -302,7 +302,7 @@ const sideCards: SideCard[] = [
     name: 'Salada Crispy Chicken',
     price: 'R$ 14,90',
     note: 'Pedaços de frango crocante sobre cama de folhas frescas, cenoura ralada e tomate cereja, acompanhada de molho especial para um toque extra de sabor.',
-    image: '/assets/acompanhamentos-4.svg',
+    image: '/assets/saladachicken.png',
     accent: 'rgba(255, 199, 44, 0.18)',
   },
   {
@@ -310,7 +310,7 @@ const sideCards: SideCard[] = [
     name: 'Salada Crispy Beef',
     price: 'R$ 24,90',
     note: 'Pedaços de carne crocante sobre cama de folhas frescas, cenoura ralada e tomate cereja, acompanhada de molho especial para um toque extra de sabor.',
-    image: '/assets/acompanhamentos-2.svg',
+    image: '/assets/saladabeef.png',
     accent: 'rgba(219, 0, 7, 0.14)',
   },
 ]
@@ -689,14 +689,18 @@ function App() {
           ))}
         </nav>
         <div className="nav-actions">
-          <button className="cart" type="button" aria-label="Cart">
+          <button className="cart" type="button" aria-label="Carrinho">
             <span className="cart-icon" aria-hidden="true">
-              +
+              <svg viewBox="0 0 24 24" role="presentation" aria-hidden="true">
+                <path d="M3 5h2l2.2 9.2a1 1 0 0 0 1 .8h7.9a1 1 0 0 0 1-.8L19 8H7.2" />
+                <circle cx="10" cy="19" r="1.5" />
+                <circle cx="17" cy="19" r="1.5" />
+              </svg>
             </span>
             <span className="cart-badge">{cartCount}</span>
           </button>
           <button className="cta" type="button">
-            Reservation
+            Finalizar pedido
           </button>
         </div>
       </header>

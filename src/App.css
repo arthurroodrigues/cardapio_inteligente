@@ -161,8 +161,19 @@
 }
 
 .cart-icon {
-  font-size: 12px;
-  line-height: 1;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+}
+
+.cart-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .cart-badge {
