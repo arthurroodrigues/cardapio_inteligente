@@ -1456,14 +1456,14 @@
 
 .drink-card-top {
   display: grid;
-  grid-template-columns: 86px minmax(0, 1fr);
-  gap: 16px;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: 20px;
   align-items: start;
 }
 
 .drink-card-media {
   position: relative;
-  min-height: 118px;
+  min-height: 186px;
   display: grid;
   place-items: center;
 }
@@ -1481,10 +1481,10 @@
 
 .drink-card-image {
   position: relative;
-  width: 76px;
-  height: 126px;
+  width: 118px;
+  height: 190px;
   object-fit: contain;
-  filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.24));
+  filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.24));
   transition: transform 0.35s ease;
 }
 
@@ -2078,13 +2078,13 @@
   }
 
   .drink-card-top {
-    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-columns: 100px minmax(0, 1fr);
     gap: 14px;
   }
 
   .drink-card-image {
-    width: 66px;
-    height: 108px;
+    width: 90px;
+    height: 148px;
   }
 
   .drink-card-copy h3,
