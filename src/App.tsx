@@ -27,6 +27,7 @@ type BurgerCard = {
   imageRotate: string
   imageScale: string
   imageShift: string
+  badge?: string
   popular?: boolean
 }
 
@@ -216,47 +217,49 @@ const classicBurgerCards: BurgerCard[] = [
 
 const premiumBurgerCards: BurgerCard[] = [
   {
-    id: 'duplo-bacon',
-    name: 'Duplo Bacon',
-    price: 'R$ 34,90',
-    note: 'Perfil robusto com crocância, camadas marcantes e final defumado.',
-    image: '/assets/duplobacon.png',
-    accent: 'rgba(255, 199, 44, 0.18)',
-    imageRotate: '4deg',
-    imageScale: '1.08',
+    id: 'brabo-clubhouse',
+    name: 'Brabo Clubhouse',
+    price: 'R$ 49,90',
+    note: 'Camadas generosas, sabor marcante e um toque de sofisticação que impressiona.',
+    image: '/assets/clubhouse.png',
+    accent: 'rgba(255, 199, 44, 0.22)',
+    imageRotate: '1deg',
+    imageScale: '1.10',
     imageShift: '-4px',
   },
   {
-    id: 'big-tasty',
-    name: 'Big Tasty',
-    price: 'R$ 36,90',
-    note: 'Tamanho generoso, molho intenso e um aroma que chega primeiro.',
-    image: '/assets/tasty.png',
-    accent: 'rgba(255, 199, 44, 0.16)',
-    imageRotate: '-3deg',
-    imageScale: '1.1',
-    imageShift: '-8px',
-  },
-  {
-    id: 'duplo-cheddar-mcmelt',
-    name: 'Duplo Cheddar McMelt',
-    price: 'R$ 37,90',
-    note: 'Camada dupla, cheddar ainda mais intenso e uma presença indulgente.',
-    image: '/assets/duplocheddar.png',
-    accent: 'rgba(255, 214, 102, 0.2)',
-    imageRotate: '3deg',
-    imageScale: '1.12',
+    id: 'brabissimo-carne',
+    name: 'Brabissimo Carne',
+    price: 'R$ 43,90',
+    note: 'Carne suculenta, camadas generosas e um perfil de sabor intenso para os mais exigentes.',
+    image: '/assets/carnebr.png',
+    accent: 'rgba(255, 161, 79, 0.2)',
+    imageRotate: '1deg',
+    imageScale: '1.10',
     imageShift: '-10px',
   },
   {
-    id: 'mcnifico-bacon',
-    name: 'McNífico Bacon',
-    price: 'R$ 38,90',
-    note: 'Mais corpo, bacon crocante e acabamento marcante de linha premium.',
-    image: '/assets/mcnifico.pngc.png',
-    accent: 'rgba(255, 199, 44, 0.14)',
-    imageRotate: '-4deg',
-    imageScale: '1.08',
+    id: 'double-gourmet-burger',
+    name: 'Double Gourmet Burger',
+    price: 'R$ 46,90',
+    note: 'Dupla camada, molho especial e um perfil encorpado para quem busca máximo impacto de sabor.',
+    image: '/assets/tasty.png',
+    accent: 'rgba(219, 0, 7, 0.18)',
+    imageRotate: '3deg',
+    imageScale: '1.14',
+    imageShift: '-12px',
+    badge: 'Premium Choice',
+    popular: true,
+  },
+  {
+    id: 'brabissimo-frango',
+    name: 'Brabissimo Frango',
+    price: 'R$ 43,90',
+    note: 'Frango suculento, camadas generosas e um perfil de sabor intenso para os mais exigentes.',
+    image: '/assets/frangobr.png',
+    accent: 'rgba(255, 255, 255, 0.12)',
+    imageRotate: '1deg',
+    imageScale: '1.1',
     imageShift: '-6px',
   },
 ]
@@ -935,17 +938,21 @@ function App() {
           </div>
         </section>
 
+        <div
+          className="section-transition section-transition-premium"
+          aria-hidden="true"
+        />
+
         <section
           className="premium-burgers-section"
           aria-labelledby="premium-burgers-heading"
         >
           <div className="premium-burgers-shell">
             <div className="premium-burgers-heading">
-              <p className="premium-burgers-kicker">Seleção premium</p>
-              <h2 id="premium-burgers-heading">Hambúrgueres premium</h2>
+              <p className="premium-burgers-kicker">Seleção Especial</p>
+              <h2 id="premium-burgers-heading">Hambúrgueres Premium</h2>
               <p className="premium-burgers-description">
-                Receitas mais intensas, camadas generosas e acabamento marcante
-                para quem quer um pedido com presença.
+                Experimente o mais alto nível de sabor e qualidade
               </p>
             </div>
 
@@ -963,11 +970,24 @@ function App() {
                 return (
                   <article
                     key={burger.id}
-                    className={`premium-burger-card${isAdded ? ' is-added' : ''}`}
+                    className={`premium-burger-card${burger.popular ? ' premium-burger-card-highlighted' : ''}${isAdded ? ' is-added' : ''}`}
                     style={cardStyle}
                   >
+                    <span className="premium-burger-sheen" aria-hidden="true" />
+                    {burger.badge ? (
+                      <span className="premium-burger-badge">{burger.badge}</span>
+                    ) : null}
+
                     <div className="premium-burger-media">
+                      <div
+                        className="premium-burger-spotlight"
+                        aria-hidden="true"
+                      />
                       <div className="premium-burger-glow" aria-hidden="true" />
+                      <div
+                        className="premium-burger-glow premium-burger-glow-secondary"
+                        aria-hidden="true"
+                      />
                       <img
                         className="premium-burger-image"
                         src={burger.image}

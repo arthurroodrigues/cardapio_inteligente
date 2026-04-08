@@ -431,7 +431,7 @@
 .burgers-section {
   position: relative;
   margin-top: 10px;
-  padding: 48px 32px 176px;
+  padding: 48px 32px 112px;
   color: #18181b;
   background: linear-gradient(180deg, #fcfcfd 0%, #ffffff 42%, #ffffff 100%);
   border-top-left-radius: 48px;
@@ -451,6 +451,47 @@
     radial-gradient(circle at 82% 14%, rgba(226, 232, 240, 0.18), transparent 36%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0));
   pointer-events: none;
+}
+
+.section-transition {
+  pointer-events: none;
+}
+
+.section-transition-premium {
+  position: relative;
+  z-index: 3;
+  height: 168px;
+  margin: -84px 0 -84px;
+  isolation: isolate;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f2f2f2 14%,
+    #d6d6d6 30%,
+    #8a8a8a 50%,
+    #2b2b2b 74%,
+    #050505 100%
+  );
+}
+
+.section-transition-premium::before {
+  content: '';
+  position: absolute;
+  inset: -14px 0 -8px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(228, 228, 228, 0.84) 16%,
+    rgba(168, 168, 168, 0.56) 38%,
+    rgba(72, 72, 72, 0.42) 62%,
+    #050505 100%
+  );
+  filter: blur(18px);
+  opacity: 0.92;
+}
+
+.section-transition-premium::after {
+  content: none;
 }
 
 .burgers-ambient {
@@ -836,41 +877,14 @@
 .premium-burgers-section {
   position: relative;
   margin-top: 0;
-  padding: 56px 32px 176px;
-  background: linear-gradient(180deg, #171719 0%, #0d0d0f 34%, #050505 100%);
+  padding: 96px 32px 188px;
+  background: #050505;
   color: #f8f4ed;
   overflow: hidden;
 }
 
 .premium-burgers-section::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  height: 220px;
-  background:
-    radial-gradient(circle at 18% 18%, rgba(255, 199, 44, 0.18), transparent 28%),
-    radial-gradient(circle at 82% 12%, rgba(255, 214, 102, 0.12), transparent 24%);
-  pointer-events: none;
-}
-
-.burgers-section::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 250px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.96) 16%,
-      #f6efe6 34%,
-      #d9ccb9 54%,
-      #7c6d5d 76%,
-      #171719 100%
-    );
-  pointer-events: none;
+  content: none;
 }
 
 .premium-burgers-section::after {
@@ -879,15 +893,15 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 248px;
+  height: 220px;
   background:
     linear-gradient(
       180deg,
-      rgba(5, 5, 5, 0) 0%,
-      rgba(255, 199, 44, 0.03) 14%,
-      rgba(146, 127, 103, 0.24) 42%,
-      rgba(232, 223, 210, 0.84) 68%,
-      #fff9f2 88%,
+      rgba(2, 2, 2, 0) 0%,
+      rgba(255, 199, 44, 0.03) 16%,
+      rgba(120, 100, 78, 0.16) 38%,
+      rgba(224, 216, 204, 0.72) 70%,
+      #fffaf4 90%,
       #ffffff 100%
     );
   pointer-events: none;
@@ -896,43 +910,27 @@
 .premium-burgers-shell {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 46px 42px;
-  border-radius: 40px;
+  padding: 62px 56px 56px;
+  border-radius: 46px;
   overflow: hidden;
-  border: 1px solid rgba(255, 199, 44, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   background:
-    linear-gradient(180deg, rgba(19, 19, 21, 0.98), rgba(8, 8, 9, 0.96)),
-    linear-gradient(135deg, rgba(255, 199, 44, 0.04), rgba(255, 255, 255, 0));
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.05), transparent 38%),
+    linear-gradient(180deg, rgba(29, 29, 31, 0.98), rgba(12, 12, 14, 0.98));
   box-shadow:
-    0 34px 70px rgba(0, 0, 0, 0.44),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 44px 84px rgba(0, 0, 0, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(255, 199, 44, 0.04);
 }
 
 .premium-burgers-shell::before {
-  content: '';
-  position: absolute;
-  inset: auto auto -18% -10%;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 199, 44, 0.14), transparent 72%);
-  filter: blur(28px);
-  pointer-events: none;
+  content: none;
 }
 
 .premium-burgers-shell::after {
-  content: '';
-  position: absolute;
-  top: -18%;
-  right: -10%;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 214, 102, 0.12), transparent 72%);
-  filter: blur(26px);
-  pointer-events: none;
+  content: none;
 }
 
 .premium-burgers-heading {
@@ -941,8 +939,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 40px;
+  gap: 14px;
+  margin-bottom: 52px;
   text-align: center;
   opacity: 0;
   animation: heroContentEnter 0.95s 0.08s cubic-bezier(0.22, 1, 0.36, 1)
@@ -951,41 +949,43 @@
 
 .premium-burgers-kicker {
   margin: 0;
-  padding: 8px 16px;
+  padding: 9px 18px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #ffcf4d;
-  background: rgba(255, 199, 44, 0.08);
-  border: 1px solid rgba(255, 199, 44, 0.14);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+  color: #fff1bf;
+  background: rgba(255, 199, 44, 0.1);
+  border: 1px solid rgba(255, 199, 44, 0.18);
+  box-shadow:
+    0 18px 32px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .premium-burgers-heading h2 {
   margin: 0;
-  font-size: clamp(54px, 7vw, 88px);
-  line-height: 0.94;
+  font-size: clamp(56px, 7vw, 92px);
+  line-height: 0.92;
   letter-spacing: -0.06em;
-  color: #ffc72c;
+  color: #fffaf2;
   text-shadow:
-    0 0 32px rgba(255, 199, 44, 0.12),
-    0 16px 34px rgba(0, 0, 0, 0.24);
+    0 0 36px rgba(255, 199, 44, 0.08),
+    0 24px 40px rgba(0, 0, 0, 0.3);
 }
 
 .premium-burgers-description {
   margin: 0;
-  max-width: 620px;
+  max-width: 640px;
   color: rgba(248, 244, 237, 0.72);
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 18px;
+  line-height: 1.75;
 }
 
 .premium-burgers-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  gap: 28px;
 }
 
 .premium-burger-card {
@@ -996,19 +996,19 @@
   --card-delay: 0s;
   position: relative;
   display: flex;
-  min-height: 344px;
+  min-height: 420px;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
-  padding: 24px;
-  border-radius: 30px;
+  gap: 24px;
+  padding: 28px 28px 26px;
+  border-radius: 32px;
   overflow: hidden;
-  border: 1px solid rgba(255, 199, 44, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   background:
-    linear-gradient(180deg, rgba(25, 25, 28, 0.98), rgba(12, 12, 13, 0.96)),
-    linear-gradient(180deg, rgba(255, 199, 44, 0.03), rgba(255, 255, 255, 0));
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 38%),
+    linear-gradient(180deg, rgba(30, 30, 33, 0.98), rgba(17, 17, 18, 0.98));
   box-shadow:
-    0 28px 44px rgba(0, 0, 0, 0.28),
+    0 28px 48px rgba(0, 0, 0, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   opacity: 0;
   transform: translateY(24px);
@@ -1017,19 +1017,26 @@
   transition:
     transform 0.38s ease,
     box-shadow 0.38s ease,
-    border-color 0.38s ease;
+    border-color 0.38s ease,
+    background 0.38s ease;
 }
 
 .premium-burger-card::before {
   content: '';
   position: absolute;
-  inset: auto -6% -24% auto;
-  width: 220px;
-  height: 220px;
+  inset: 2% 8% auto;
+  height: 58%;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--premium-accent), transparent 72%);
-  filter: blur(18px);
-  opacity: 0.9;
+  background:
+    radial-gradient(
+      circle at 50% 12%,
+      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 230, 163, 0.08) 28%,
+      transparent 72%
+    );
+  filter: blur(10px);
+  opacity: 0.72;
+  transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
 .premium-burger-card::after {
@@ -1037,17 +1044,37 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgba(255, 214, 102, 0.06);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 -24px 50px rgba(255, 199, 44, 0.03);
   pointer-events: none;
 }
 
-.premium-burger-card:hover {
-  transform: translateY(-10px);
-  border-color: rgba(255, 199, 44, 0.24);
+.premium-burger-card-highlighted {
+  border-color: rgba(255, 199, 44, 0.22);
   box-shadow:
-    0 34px 54px rgba(0, 0, 0, 0.34),
+    0 34px 58px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 199, 44, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.premium-burger-card:hover {
+  transform: translateY(-12px);
+  border-color: rgba(255, 199, 44, 0.22);
+  box-shadow:
+    0 40px 66px rgba(0, 0, 0, 0.46),
     0 0 0 1px rgba(255, 199, 44, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.premium-burger-card:hover::before {
+  opacity: 0.92;
+  transform: scale(1.06);
+}
+
+.premium-burger-card:hover .premium-burger-spotlight {
+  opacity: 1;
+  transform: scale(1.06);
 }
 
 .premium-burger-card:hover .premium-burger-glow {
@@ -1057,16 +1084,18 @@
 
 .premium-burger-card:hover .premium-burger-image {
   transform:
-    translateY(calc(var(--premium-image-shift) - 14px))
+    translateY(calc(var(--premium-image-shift) - 16px))
     rotate(var(--premium-image-rotate))
-    scale(calc(var(--premium-image-scale) + 0.06));
-  filter: drop-shadow(0 30px 34px rgba(0, 0, 0, 0.34));
+    scale(calc(var(--premium-image-scale) + 0.08));
+  filter:
+    drop-shadow(0 36px 48px rgba(0, 0, 0, 0.6))
+    drop-shadow(0 0 18px rgba(255, 199, 44, 0.16));
 }
 
 .premium-burger-card.is-added {
   border-color: rgba(255, 199, 44, 0.42);
   box-shadow:
-    0 36px 58px rgba(0, 0, 0, 0.38),
+    0 40px 68px rgba(0, 0, 0, 0.44),
     0 0 0 1px rgba(255, 199, 44, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
@@ -1077,35 +1106,120 @@
   z-index: 1;
 }
 
+.premium-burger-sheen {
+  position: absolute;
+  top: -30%;
+  left: -42%;
+  width: 54%;
+  height: 160%;
+  transform: rotate(14deg) translateX(-180%);
+  background:
+    linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.02) 30%,
+      rgba(255, 214, 102, 0.18) 50%,
+      rgba(255, 255, 255, 0.03) 64%,
+      transparent 100%
+    );
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.premium-burger-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 199, 44, 0.22);
+  background: rgba(18, 18, 20, 0.86);
+  color: #fff1bf;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
 .premium-burger-media {
   position: relative;
   display: grid;
-  min-height: 188px;
+  min-height: 236px;
   place-items: center;
+  padding-top: 24px;
+}
+
+.premium-burger-spotlight {
+  position: absolute;
+  inset: -4% 12% auto;
+  height: 72%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(255, 255, 255, 0.26) 0%,
+      rgba(255, 220, 128, 0.14) 36%,
+      transparent 72%
+    );
+  filter: blur(8px);
+  opacity: 0.9;
+  transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
 .premium-burger-glow {
   position: absolute;
-  width: 82%;
-  aspect-ratio: 1;
+  bottom: 10px;
+  width: 84%;
+  aspect-ratio: 1.3 / 1;
   border-radius: 50%;
-  background: radial-gradient(circle at center, var(--premium-accent), transparent 68%);
-  filter: blur(22px);
-  opacity: 0.88;
+  background:
+    radial-gradient(
+      circle at center,
+      var(--premium-accent) 0%,
+      rgba(255, 255, 255, 0.08) 34%,
+      transparent 72%
+    );
+  filter: blur(28px);
+  opacity: 0.82;
   transition: transform 0.4s ease, opacity 0.35s ease;
+}
+
+.premium-burger-glow-secondary {
+  bottom: 62px;
+  width: 58%;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.06) 32%,
+      transparent 72%
+    );
+  filter: blur(24px);
+  opacity: 0.36;
 }
 
 .premium-burger-image {
   position: relative;
+  z-index: 1;
   width: auto;
-  max-width: min(100%, 300px);
-  height: clamp(160px, 17vw, 206px);
+  max-width: min(100%, 320px);
+  height: clamp(188px, 18vw, 236px);
   object-fit: contain;
   transform:
     translateY(var(--premium-image-shift))
     rotate(var(--premium-image-rotate))
     scale(var(--premium-image-scale));
-  filter: drop-shadow(0 24px 28px rgba(0, 0, 0, 0.28));
+  filter:
+    drop-shadow(0 30px 42px rgba(0, 0, 0, 0.56))
+    drop-shadow(0 0 16px rgba(255, 199, 44, 0.08));
   transform-origin: center bottom;
   transition: transform 0.4s ease, filter 0.4s ease;
 }
@@ -1113,80 +1227,108 @@
 .premium-burger-body {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 .premium-burger-copy {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .premium-burger-copy h3 {
   margin: 0;
-  font-size: 32px;
-  line-height: 1;
+  font-size: 34px;
+  line-height: 0.98;
   letter-spacing: -0.05em;
-  color: #fff7ed;
+  color: #fff9f2;
 }
 
 .premium-burger-copy p {
   margin: 0;
-  color: rgba(248, 244, 237, 0.68);
+  color: rgba(248, 244, 237, 0.7);
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .premium-burger-footer {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
+  flex-wrap: wrap;
 }
 
 .premium-burger-footer strong {
-  font-size: 30px;
+  font-size: 32px;
   line-height: 1;
   letter-spacing: -0.05em;
-  color: #ffc72c;
+  color: #ffd566;
 }
 
 .premium-burger-button {
-  border: none;
+  border: 1px solid rgba(255, 199, 44, 0.24);
   border-radius: 999px;
-  padding: 14px 18px;
-  min-width: 132px;
+  padding: 14px 20px;
+  min-width: 140px;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #2f1300;
-  background: linear-gradient(135deg, #ffe699 0%, #ffc72c 100%);
+  color: #fff7ed;
+  background: linear-gradient(180deg, rgba(31, 31, 34, 0.92), rgba(12, 12, 14, 0.98));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 18px 28px rgba(0, 0, 0, 0.22);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 16px 30px rgba(0, 0, 0, 0.28);
   cursor: pointer;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease,
-    filter 0.3s ease;
+    filter 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 
+.premium-burger-card:hover .premium-burger-button,
 .premium-burger-button:hover {
   transform: translateY(-2px);
+  color: #fffdf8;
+  border-color: transparent;
+  background: linear-gradient(135deg, #ffe18a 0%, #ffc72c 42%, #d31017 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 22px 34px rgba(0, 0, 0, 0.28);
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 22px 36px rgba(0, 0, 0, 0.34),
+    0 0 24px rgba(255, 199, 44, 0.16);
   filter: saturate(1.05);
 }
 
 .premium-burger-card.is-added .premium-burger-button {
   color: #fff7ed;
-  background: linear-gradient(135deg, #d31017 0%, #ad0007 100%);
+  border-color: transparent;
+  background: linear-gradient(135deg, #d31017 0%, #8f0005 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 18px 32px rgba(0, 0, 0, 0.28);
+    0 18px 32px rgba(0, 0, 0, 0.32);
+}
+
+.premium-burger-card-highlighted .premium-burger-badge {
+  background: rgba(27, 23, 14, 0.92);
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 199, 44, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.premium-burger-card-highlighted .premium-burger-glow {
+  opacity: 0.96;
+  animation: premiumGlowPulse 4.4s ease-in-out infinite;
+}
+
+.premium-burger-card-highlighted .premium-burger-sheen {
+  opacity: 0.84;
+  animation: premiumSheen 5.6s ease-in-out infinite;
 }
 
 .sides-section {
@@ -2773,6 +2915,41 @@
   }
 }
 
+@keyframes premiumSheen {
+  0% {
+    transform: rotate(14deg) translateX(-180%);
+    opacity: 0;
+  }
+
+  16% {
+    opacity: 0.2;
+  }
+
+  42% {
+    opacity: 0.84;
+  }
+
+  58% {
+    opacity: 0.18;
+  }
+
+  100% {
+    transform: rotate(14deg) translateX(260%);
+    opacity: 0;
+  }
+}
+
+@keyframes premiumGlowPulse {
+  0%,
+  100% {
+    opacity: 0.88;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 980px) {
   .navbar {
     top: 12px;
@@ -2797,7 +2974,7 @@
   }
 
   .burgers-section {
-    padding: 18px 24px 88px;
+    padding: 18px 24px 68px;
   }
 
   .sides-section {
@@ -2808,9 +2985,14 @@
     padding: 0 24px 96px;
   }
 
+  .section-transition-premium {
+    height: 152px;
+    margin: -76px 0 -76px;
+  }
+
   .premium-burgers-section {
     margin-top: 0;
-    padding: 44px 24px 112px;
+    padding: 84px 24px 124px;
   }
 
   .desserts-section {
@@ -2842,13 +3024,13 @@
   }
 
   .premium-burgers-shell {
-    padding: 34px 24px 30px;
-    border-radius: 32px;
+    padding: 46px 32px 38px;
+    border-radius: 36px;
   }
 
   .premium-burgers-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    gap: 22px;
   }
 
   .burgers-grid {
@@ -2896,7 +3078,7 @@
   }
 
   .burgers-section {
-    padding: 8px 20px 64px;
+    padding: 8px 20px 48px;
   }
 
   .sides-section {
@@ -2907,9 +3089,14 @@
     padding: 0 20px 72px;
   }
 
+  .section-transition-premium {
+    height: 132px;
+    margin: -66px 0 -66px;
+  }
+
   .premium-burgers-section {
     margin-top: 0;
-    padding: 34px 20px 88px;
+    padding: 72px 20px 96px;
   }
 
   .desserts-section {
@@ -2969,7 +3156,7 @@
   }
 
   .premium-burgers-shell {
-    padding: 24px 16px 20px;
+    padding: 28px 18px 24px;
     border-radius: 28px;
   }
 
@@ -2983,26 +3170,33 @@
 
   .premium-burgers-grid {
     grid-template-columns: 1fr;
+    gap: 18px;
   }
 
   .premium-burger-card {
-    min-height: 316px;
-    padding: 18px;
+    min-height: 340px;
+    padding: 20px;
     border-radius: 24px;
   }
 
+  .premium-burger-badge {
+    top: 14px;
+    left: 14px;
+  }
+
   .premium-burger-media {
-    min-height: 172px;
+    min-height: 188px;
+    padding-top: 18px;
   }
 
   .premium-burger-image {
-    max-width: min(100%, 258px);
-    height: 174px;
+    max-width: min(100%, 264px);
+    height: 180px;
   }
 
   .premium-burger-copy h3,
   .premium-burger-footer strong {
-    font-size: 24px;
+    font-size: 26px;
   }
 
   .premium-burger-footer {
@@ -3250,6 +3444,7 @@
   .premium-burger-button,
   .premium-burger-image,
   .premium-burger-glow,
+  .premium-burger-sheen,
   .side-card,
   .side-card-button,
   .side-card-image,
@@ -3274,6 +3469,8 @@
   .premium-burger-button,
   .premium-burger-image,
   .premium-burger-glow,
+  .premium-burger-sheen,
+  .premium-burger-spotlight,
   .side-card,
   .side-card-button,
   .side-card-image,
