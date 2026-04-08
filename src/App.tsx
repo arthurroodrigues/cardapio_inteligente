@@ -63,6 +63,20 @@ type BeverageCard = {
   highlightedSize: BeverageSize
 }
 
+type DessertCard = {
+  id: string
+  name: string
+  note: string
+  price: string
+  accent: string
+  popular?: boolean
+}
+
+type DessertSuggestion = {
+  combo: string
+  note: string
+}
+
 const Burger3D = lazy(async () => {
   const module = await import('@/components/ui/burger-3d')
   return { default: module.Burger3D }
@@ -72,7 +86,7 @@ const navLinks: NavLink[] = [
   { label: 'Hambúrgueres', icon: 'burger', href: '#hamburgueres' },
   { label: 'Acompanhamentos', icon: 'fries', href: '#acompanhamentos' },
   { label: 'Bebidas', icon: 'drink', href: '#bebidas' },
-  { label: 'Sobremesas', icon: 'icecream', href: '#' },
+  { label: 'Sobremesas', icon: 'icecream', href: '#sobremesas' },
 ]
 
 const navIcons: Record<NavIconKey, JSX.Element> = {
@@ -108,7 +122,7 @@ const navIcons: Record<NavIconKey, JSX.Element> = {
   ),
 }
 
-const burgerCards: BurgerCard[] = [
+const classicBurgerCards: BurgerCard[] = [
   {
     id: 'big-mac',
     name: 'Big Mac',
@@ -147,7 +161,7 @@ const burgerCards: BurgerCard[] = [
     id: 'duplo-bacon',
     name: 'Duplo Bacon',
     price: 'R$ 34,90',
-    note: 'Perfil robusto com crocância e final defumado.',
+    note: 'Perfil robusto com crocância, camadas marcantes e final defumado.',
     image: '/assets/duplobacon.png',
     accent: 'rgba(148, 163, 184, 0.12)',
     imageRotate: '5deg',
@@ -169,7 +183,7 @@ const burgerCards: BurgerCard[] = [
     id: 'big-tasty',
     name: 'Big Tasty',
     price: 'R$ 36,90',
-    note: 'Tamanho generoso e sabor que chega primeiro no aroma.',
+    note: 'Tamanho generoso, molho intenso e um aroma que chega primeiro.',
     image: '/assets/tasty.png',
     accent: 'rgba(203, 213, 225, 0.14)',
     imageRotate: '3deg',
@@ -180,7 +194,7 @@ const burgerCards: BurgerCard[] = [
     id: 'duplo-cheddar-mcmelt',
     name: 'Duplo Cheddar McMelt',
     price: 'R$ 37,90',
-    note: 'Camada dupla e ainda mais cheddar intenso.',
+    note: 'Camada dupla, cheddar ainda mais intenso e uma presença indulgente.',
     image: '/assets/duplocheddar.png',
     accent: 'rgba(226, 232, 240, 0.2)',
     imageRotate: '-2deg',
@@ -197,6 +211,53 @@ const burgerCards: BurgerCard[] = [
     imageRotate: '4deg',
     imageScale: '1.07',
     imageShift: '-7px',
+  },
+]
+
+const premiumBurgerCards: BurgerCard[] = [
+  {
+    id: 'duplo-bacon',
+    name: 'Duplo Bacon',
+    price: 'R$ 34,90',
+    note: 'Perfil robusto com crocância, camadas marcantes e final defumado.',
+    image: '/assets/duplobacon.png',
+    accent: 'rgba(255, 199, 44, 0.18)',
+    imageRotate: '4deg',
+    imageScale: '1.08',
+    imageShift: '-4px',
+  },
+  {
+    id: 'big-tasty',
+    name: 'Big Tasty',
+    price: 'R$ 36,90',
+    note: 'Tamanho generoso, molho intenso e um aroma que chega primeiro.',
+    image: '/assets/tasty.png',
+    accent: 'rgba(255, 199, 44, 0.16)',
+    imageRotate: '-3deg',
+    imageScale: '1.1',
+    imageShift: '-8px',
+  },
+  {
+    id: 'duplo-cheddar-mcmelt',
+    name: 'Duplo Cheddar McMelt',
+    price: 'R$ 37,90',
+    note: 'Camada dupla, cheddar ainda mais intenso e uma presença indulgente.',
+    image: '/assets/duplocheddar.png',
+    accent: 'rgba(255, 214, 102, 0.2)',
+    imageRotate: '3deg',
+    imageScale: '1.12',
+    imageShift: '-10px',
+  },
+  {
+    id: 'mcnifico-bacon',
+    name: 'McNífico Bacon',
+    price: 'R$ 38,90',
+    note: 'Mais corpo, bacon crocante e acabamento marcante de linha premium.',
+    image: '/assets/mcnifico.pngc.png',
+    accent: 'rgba(255, 199, 44, 0.14)',
+    imageRotate: '-4deg',
+    imageScale: '1.08',
+    imageShift: '-6px',
   },
 ]
 
@@ -474,6 +535,60 @@ const beverageSizeLabels: Record<BeverageSize, string> = {
   Médio: '500 ml',
   Grande: '700 ml',
 }
+
+const dessertCards: DessertCard[] = [
+  {
+    id: 'mcflurry',
+    name: 'McFlurry',
+    note: 'Mistura cremosa com calda intensa e textura irresistível em cada colherada.',
+    price: 'R$ 15,90',
+    accent: 'rgba(95, 18, 0, 0.14)',
+    popular: true,
+  },
+  {
+    id: 'sundae-chocolate',
+    name: 'Sundae Chocolate',
+    note: 'Baunilha macia finalizada com chocolate brilhante e generoso.',
+    price: 'R$ 11,90',
+    accent: 'rgba(95, 18, 0, 0.12)',
+  },
+  {
+    id: 'sundae-morango',
+    name: 'Sundae Morango',
+    note: 'Doçura frutada e cremosa para fechar o pedido com leveza.',
+    price: 'R$ 11,90',
+    accent: 'rgba(244, 114, 182, 0.16)',
+  },
+  {
+    id: 'cookie',
+    name: 'Cookie',
+    note: 'Macio por dentro, dourado por fora e perfeito para um doce rápido.',
+    price: 'R$ 8,90',
+    accent: 'rgba(161, 98, 7, 0.14)',
+  },
+  {
+    id: 'milkshake',
+    name: 'Milkshake',
+    note: 'Gelado, encorpado e super cremoso do primeiro ao último gole.',
+    price: 'R$ 16,90',
+    accent: 'rgba(255, 199, 44, 0.16)',
+  },
+]
+
+const dessertSuggestions: DessertSuggestion[] = [
+  {
+    combo: 'Big Mac + Sundae',
+    note: 'Clássico salgado com final doce na medida certa.',
+  },
+  {
+    combo: 'Nuggets + McFlurry',
+    note: 'Crocância quente com contraste cremoso e gelado.',
+  },
+  {
+    combo: 'Combo + Milkshake',
+    note: 'Opção mais indulgente para fechar o pedido em alta.',
+  },
+]
 
 const initialBeverageSizes = beverageCards.reduce<Record<string, BeverageSize>>(
   (selectedSizes, drink) => {
@@ -755,14 +870,14 @@ function App() {
           <div className="burgers-shell">
             <div className="burgers-heading">
               <p className="burgers-kicker">Seleção clássica</p>
-              <h2 id="hamburgueres-heading">Hambúrgueres</h2>
+              <h2 id="hamburgueres-heading">Hambúrgueres clássicos</h2>
               <p className="burgers-subtitle">
                 Clássicos que definem o sabor
               </p>
             </div>
 
             <div className="burgers-grid">
-              {burgerCards.map((burger, index) => {
+              {classicBurgerCards.map((burger, index) => {
                 const isAdded = addedItemId === burger.id
                 const cardStyle = {
                   '--card-accent': burger.accent,
@@ -810,6 +925,71 @@ function App() {
                           onClick={() => handleAddToOrder(burger.id)}
                         >
                           {isAdded ? 'Adicionado' : 'Adicionar ao pedido'}
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="premium-burgers-section"
+          aria-labelledby="premium-burgers-heading"
+        >
+          <div className="premium-burgers-shell">
+            <div className="premium-burgers-heading">
+              <p className="premium-burgers-kicker">Seleção premium</p>
+              <h2 id="premium-burgers-heading">Hambúrgueres premium</h2>
+              <p className="premium-burgers-description">
+                Receitas mais intensas, camadas generosas e acabamento marcante
+                para quem quer um pedido com presença.
+              </p>
+            </div>
+
+            <div className="premium-burgers-grid">
+              {premiumBurgerCards.map((burger, index) => {
+                const isAdded = addedItemId === burger.id
+                const cardStyle = {
+                  '--premium-accent': burger.accent,
+                  '--premium-image-rotate': burger.imageRotate,
+                  '--premium-image-scale': burger.imageScale,
+                  '--premium-image-shift': burger.imageShift,
+                  '--card-delay': `${0.14 * index}s`,
+                } as CSSProperties
+
+                return (
+                  <article
+                    key={burger.id}
+                    className={`premium-burger-card${isAdded ? ' is-added' : ''}`}
+                    style={cardStyle}
+                  >
+                    <div className="premium-burger-media">
+                      <div className="premium-burger-glow" aria-hidden="true" />
+                      <img
+                        className="premium-burger-image"
+                        src={burger.image}
+                        alt={burger.name}
+                        loading="lazy"
+                      />
+                    </div>
+
+                    <div className="premium-burger-body">
+                      <div className="premium-burger-copy">
+                        <h3>{burger.name}</h3>
+                        <p>{burger.note}</p>
+                      </div>
+
+                      <div className="premium-burger-footer">
+                        <strong>{burger.price}</strong>
+                        <button
+                          className="premium-burger-button"
+                          type="button"
+                          onClick={() => handleAddToOrder(burger.id)}
+                        >
+                          {isAdded ? 'Adicionado' : 'Adicionar'}
                         </button>
                       </div>
                     </div>
@@ -1030,6 +1210,109 @@ function App() {
                     </article>
                   )
                 })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="desserts-section"
+          id="sobremesas"
+          aria-labelledby="sobremesas-heading"
+        >
+          <div className="desserts-shell">
+            <div className="desserts-content">
+              <div className="desserts-heading">
+                <p className="desserts-kicker">Doce final</p>
+                <h2 id="sobremesas-heading">Sobremesas</h2>
+                <p className="desserts-description">
+                  Finalize sua experiência com um toque doce e irresistível
+                </p>
+              </div>
+
+              <div className="desserts-grid">
+                {dessertCards.map((dessert, index) => {
+                  const isAdded = addedItemId === dessert.id
+                  const cardStyle = {
+                    '--dessert-accent': dessert.accent,
+                    '--card-delay': `${0.08 * index}s`,
+                  } as CSSProperties
+
+                  return (
+                    <article
+                      key={dessert.id}
+                      className={`dessert-card${dessert.popular ? ' dessert-card-popular' : ''}${isAdded ? ' is-added' : ''}`}
+                      style={cardStyle}
+                    >
+                      {dessert.popular ? (
+                        <span className="dessert-card-badge">Mais pedido 🔥</span>
+                      ) : null}
+
+                      <div className="dessert-card-copy">
+                        <h3>{dessert.name}</h3>
+                        <p>{dessert.note}</p>
+                      </div>
+
+                      <div className="dessert-card-footer">
+                        <strong>{dessert.price}</strong>
+                        <button
+                          className="dessert-card-button"
+                          type="button"
+                          onClick={() => handleAddToOrder(dessert.id)}
+                        >
+                          {isAdded ? 'Adicionado' : 'Adicionar'}
+                        </button>
+                      </div>
+                    </article>
+                  )
+                })}
+              </div>
+
+              <div className="desserts-suggestions">
+                <div className="desserts-suggestions-heading">
+                  <span>Sugestões inteligentes</span>
+                  <p>Combinações rápidas para fechar o pedido com mais sabor.</p>
+                </div>
+
+                <div className="desserts-suggestions-grid">
+                  {dessertSuggestions.map((suggestion) => (
+                    <article
+                      key={suggestion.combo}
+                      className="desserts-suggestion-card"
+                    >
+                      <strong>{suggestion.combo}</strong>
+                      <span>{suggestion.note}</span>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="desserts-visual" aria-hidden="true">
+              <div className="dessert-hero">
+                <div className="dessert-hero-halo" />
+                <div className="dessert-hero-shadow" />
+                <div className="dessert-hero-cup">
+                  <span className="dessert-hero-cup-mark">M</span>
+                  <span className="dessert-hero-cup-copy">McFlurry</span>
+                </div>
+                <div className="dessert-hero-cream dessert-hero-cream-back" />
+                <div className="dessert-hero-cream dessert-hero-cream-middle" />
+                <div className="dessert-hero-cream dessert-hero-cream-front" />
+                <div className="dessert-hero-syrup" />
+                <span className="dessert-hero-drip dessert-hero-drip-1" />
+                <span className="dessert-hero-drip dessert-hero-drip-2" />
+                <span className="dessert-hero-drip dessert-hero-drip-3" />
+                <span className="dessert-hero-drip dessert-hero-drip-4" />
+                <span className="dessert-hero-cookie dessert-hero-cookie-1" />
+                <span className="dessert-hero-cookie dessert-hero-cookie-2" />
+                <span className="dessert-hero-cookie dessert-hero-cookie-3" />
+                <span className="dessert-hero-spoon" />
+
+                <div className="dessert-hero-caption">
+                  <strong>Chocolate escorrendo</strong>
+                  <span>Cremosidade gelada com acabamento brilhante e intenso.</span>
+                </div>
               </div>
             </div>
           </div>
