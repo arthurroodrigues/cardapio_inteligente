@@ -69,13 +69,9 @@ type DessertCard = {
   name: string
   note: string
   price: string
+  image: string
   accent: string
   popular?: boolean
-}
-
-type DessertSuggestion = {
-  combo: string
-  note: string
 }
 
 const Burger3D = lazy(async () => {
@@ -543,53 +539,75 @@ const dessertCards: DessertCard[] = [
   {
     id: 'mcflurry',
     name: 'McFlurry',
-    note: 'Mistura cremosa com calda intensa e textura irresistível em cada colherada.',
+    note: 'Mistura gelada com cobertura intensa e crocância que marca o final do pedido.',
     price: 'R$ 15,90',
-    accent: 'rgba(95, 18, 0, 0.14)',
+    image: '/assets/dessert-coloso.jpg',
+    accent: 'rgba(120, 53, 15, 0.16)',
     popular: true,
   },
   {
     id: 'sundae-chocolate',
     name: 'Sundae Chocolate',
-    note: 'Baunilha macia finalizada com chocolate brilhante e generoso.',
+    note: 'Baunilha cremosa finalizada com calda de chocolate brilhante e indulgente.',
     price: 'R$ 11,90',
+    image: '/assets/dessert-coloso.jpg',
     accent: 'rgba(95, 18, 0, 0.12)',
   },
   {
     id: 'sundae-morango',
     name: 'Sundae Morango',
-    note: 'Doçura frutada e cremosa para fechar o pedido com leveza.',
+    note: 'Doçura frutada e cremosa com um final leve e refrescante.',
     price: 'R$ 11,90',
+    image: '/assets/dessert-shakem.png',
     accent: 'rgba(244, 114, 182, 0.16)',
+  },
+  {
+    id: 'milkshake-chocolate',
+    name: 'Milkshake Chocolate',
+    note: 'Cremoso, gelado e com sabor intenso para quem quer um clássico encorpado.',
+    price: 'R$ 16,90',
+    image: '/assets/dessert-shakem.png',
+    accent: 'rgba(120, 53, 15, 0.14)',
+  },
+  {
+    id: 'milkshake-morango',
+    name: 'Milkshake Morango',
+    note: 'Textura aveludada e sabor frutado com presença doce na medida certa.',
+    price: 'R$ 16,90',
+    image: '/assets/dessert-shakem.png',
+    accent: 'rgba(251, 113, 133, 0.18)',
+  },
+  {
+    id: 'milkshake-baunilha',
+    name: 'Milkshake Baunilha',
+    note: 'Clássico suave, aromático e super cremoso do primeiro ao último gole.',
+    price: 'R$ 16,90',
+    image: '/assets/dessert-shakem.png',
+    accent: 'rgba(250, 204, 21, 0.14)',
   },
   {
     id: 'cookie',
     name: 'Cookie',
-    note: 'Macio por dentro, dourado por fora e perfeito para um doce rápido.',
+    note: 'Macio no centro, dourado nas bordas e perfeito para um doce rápido.',
     price: 'R$ 8,90',
+    image: '/assets/dessert-coloso.jpg',
     accent: 'rgba(161, 98, 7, 0.14)',
   },
   {
-    id: 'milkshake',
-    name: 'Milkshake',
-    note: 'Gelado, encorpado e super cremoso do primeiro ao último gole.',
-    price: 'R$ 16,90',
-    accent: 'rgba(255, 199, 44, 0.16)',
-  },
-]
-
-const dessertSuggestions: DessertSuggestion[] = [
-  {
-    combo: 'Big Mac + Sundae',
-    note: 'Clássico salgado com final doce na medida certa.',
+    id: 'brownie',
+    name: 'Brownie',
+    note: 'Massa intensa de chocolate com interior úmido e sabor marcante.',
+    price: 'R$ 10,90',
+    image: '/assets/dessert-coloso.jpg',
+    accent: 'rgba(120, 53, 15, 0.18)',
   },
   {
-    combo: 'Nuggets + McFlurry',
-    note: 'Crocância quente com contraste cremoso e gelado.',
-  },
-  {
-    combo: 'Combo + Milkshake',
-    note: 'Opção mais indulgente para fechar o pedido em alta.',
+    id: 'torta-maca',
+    name: 'Torta de Maçã',
+    note: 'Casquinha crocante com recheio quente de maçã e toque de canela.',
+    price: 'R$ 9,90',
+    image: '/assets/dessert-coloso.jpg',
+    accent: 'rgba(245, 158, 11, 0.16)',
   },
 ]
 
@@ -1246,7 +1264,7 @@ function App() {
                 <p className="desserts-kicker">Doce final</p>
                 <h2 id="sobremesas-heading">Sobremesas</h2>
                 <p className="desserts-description">
-                  Finalize sua experiência com um toque doce e irresistível
+                  Finalize sua experiência com um toque doce irresistível
                 </p>
               </div>
 
@@ -1268,6 +1286,16 @@ function App() {
                         <span className="dessert-card-badge">Mais pedido 🔥</span>
                       ) : null}
 
+                      <div className="dessert-card-media" aria-hidden="true">
+                        <div className="dessert-card-media-glow" />
+                        <img
+                          className="dessert-card-image"
+                          src={dessert.image}
+                          alt=""
+                          loading="lazy"
+                        />
+                      </div>
+
                       <div className="dessert-card-copy">
                         <h3>{dessert.name}</h3>
                         <p>{dessert.note}</p>
@@ -1287,52 +1315,30 @@ function App() {
                   )
                 })}
               </div>
-
-              <div className="desserts-suggestions">
-                <div className="desserts-suggestions-heading">
-                  <span>Sugestões inteligentes</span>
-                  <p>Combinações rápidas para fechar o pedido com mais sabor.</p>
-                </div>
-
-                <div className="desserts-suggestions-grid">
-                  {dessertSuggestions.map((suggestion) => (
-                    <article
-                      key={suggestion.combo}
-                      className="desserts-suggestion-card"
-                    >
-                      <strong>{suggestion.combo}</strong>
-                      <span>{suggestion.note}</span>
-                    </article>
-                  ))}
-                </div>
-              </div>
             </div>
 
             <div className="desserts-visual" aria-hidden="true">
-              <div className="dessert-hero">
-                <div className="dessert-hero-halo" />
-                <div className="dessert-hero-shadow" />
-                <div className="dessert-hero-cup">
-                  <span className="dessert-hero-cup-mark">M</span>
-                  <span className="dessert-hero-cup-copy">McFlurry</span>
-                </div>
-                <div className="dessert-hero-cream dessert-hero-cream-back" />
-                <div className="dessert-hero-cream dessert-hero-cream-middle" />
-                <div className="dessert-hero-cream dessert-hero-cream-front" />
-                <div className="dessert-hero-syrup" />
-                <span className="dessert-hero-drip dessert-hero-drip-1" />
-                <span className="dessert-hero-drip dessert-hero-drip-2" />
-                <span className="dessert-hero-drip dessert-hero-drip-3" />
-                <span className="dessert-hero-drip dessert-hero-drip-4" />
-                <span className="dessert-hero-cookie dessert-hero-cookie-1" />
-                <span className="dessert-hero-cookie dessert-hero-cookie-2" />
-                <span className="dessert-hero-cookie dessert-hero-cookie-3" />
-                <span className="dessert-hero-spoon" />
+              <div className="desserts-visual-stage">
+                <span className="desserts-visual-orb desserts-visual-orb-top" />
+                <span className="desserts-visual-orb desserts-visual-orb-bottom" />
 
-                <div className="dessert-hero-caption">
-                  <strong>Chocolate escorrendo</strong>
-                  <span>Cremosidade gelada com acabamento brilhante e intenso.</span>
-                </div>
+                <figure className="dessert-photo-card dessert-photo-card-top">
+                  <img
+                    className="dessert-photo-image dessert-photo-image-top"
+                    src="/assets/dessert-coloso.jpg"
+                    alt=""
+                    loading="lazy"
+                  />
+                </figure>
+
+                <figure className="dessert-photo-card dessert-photo-card-bottom">
+                  <img
+                    className="dessert-photo-image dessert-photo-image-bottom"
+                    src="/assets/dessert-shakem.png"
+                    alt=""
+                    loading="lazy"
+                  />
+                </figure>
               </div>
             </div>
           </div>
