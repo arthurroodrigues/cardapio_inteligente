@@ -1,16 +1,67 @@
-# React + Vite
+# 🍔 Cardápio Inteligente - Landing Page Fast Food
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma landing page moderna e interativa inspirada em uma grande rede de fast-food (McDonald's), com foco em experiência do usuário, design premium e sugestões inteligentes de produtos.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+## 🎯 Objetivo do Projeto
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Criar uma interface moderna de cardápio digital com:
 
-## Expanding the ESLint configuration
+- Visual profissional (nível produto real)
+- Experiência fluida e intuitiva
+- Destaque visual para produtos
+- Estrutura organizada e escalável
+- Conceito de **cardápio inteligente**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🧠 Funcionalidades
+
+- 🍔 Seção de hambúrgueres clássicos  
+- 💎 Seção de hambúrgueres premium com design escuro  
+- 🍟 Acompanhamentos organizados em cards  
+- 🥤 Bebidas com seleção de tamanho  
+- 🍦 Sobremesas com composição visual avançada  
+- 🛒 Sistema de adicionar produtos  
+- ⭐ Destaques como "Mais pedido"  
+- 🎨 Layout responsivo e moderno  
+
+---
+
+## 🎨 Design & UI
+
+- Alternância entre seções claras e escuras  
+- Uso de sombras, profundidade e hierarquia visual  
+- Cards com interações (hover)  
+- Transições suaves entre seções  
+- Composição visual estilo campanhas publicitárias  
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- HTML5  
+- CSS3 (Flexbox, Grid, animações)  
+- JavaScript  
+- TypeScript  
+
+---
+
+## 📱 Responsividade
+
+Compatível com:
+
+- 💻 Desktop  
+- 📱 Mobile  
+- 📲 Tablets  
+
+---
+
+## 💡 Diferenciais
+
+- 🔥 Seção premium com visual escuro  
+- 🍦 Layout criativo com sobreposição de imagens  
+- 🧠 Estrutura preparada para lógica inteligente  
+- 🎯 Foco em experiência do usuário  
